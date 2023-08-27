@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField]
-    private List<GameObject> points;
+    private GameManager gameManagerScript;
 
     private int currentPoint = 0;
 
@@ -14,21 +13,22 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float healthPoints;
 
-
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        transform.position = points[currentPoint].transform.position;
+        gameManagerScript = GameObject.Find("Game Manager").GetComponent<GameManager>();
+
+        transform.position = gameManagerScript.points[currentPoint].transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (currentPoint < points.Count)
+        if (currentPoint < gameManagerScript.points.Count)
         {
-            transform.position = Vector2.MoveTowards(transform.position, points[currentPoint].transform.position, moveSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, gameManagerScript.points[currentPoint].transform.position, moveSpeed * Time.deltaTime);
             
-            if(transform.position == points[currentPoint].transform.position)
+            if(transform.position == gameManagerScript.points[currentPoint].transform.position)
             {
                 currentPoint++;
             }
