@@ -1,85 +1,102 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using TMPro.EditorUtilities;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
     public class EnemyWavePart
     {
-        public int numberOfEnemies { get; set; }
-        public float spacing { get; set; }
-        public float delayForNextPart { get; set; }
-        public GameObject enemyPrefab { get; set; }
+        public int NumberOfEnemies { get; set; }
+        public float Spacing { get; set; }
+        public float DelayForNextPart { get; set; }
+        public GameObject EnemyPrefab { get; set; }
     }
 
     public class EnemyWave
     {
-        public int waveNumber { get; set; }
-        public List<EnemyWavePart> waveParts { get; set; } = new();
+        public int WaveNumber { get; set; }
+        public List<EnemyWavePart> WaveParts { get; set; } = new();
     }
+    private List<EnemyWave> _waves = new();
 
-    private GameManager gameManagerScript;
+    private GameManager _gameManagerScript;
 
-    [SerializeField]
-    private int enemyCount;
-    public GameObject startPoint;
-    public GameObject enemy;
-    public GameObject toughEnemy;
+    public GameObject EnemyPrefab;
+    public GameObject ToughEnemyPrefab;
 
-    private List<EnemyWave> waves = new();
+    [field: SerializeField] public List<GameObject> Enemies { get; private set; } = new();
+    private bool _canSpawnNextWave;
 
     void Start()
     {
-        gameManagerScript = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        _gameManagerScript = GameObject.Find("Game Manager").GetComponent<GameManager>();
 
-        EnemyWavePart part1 = new() { numberOfEnemies = 2, spacing = 0.5f, delayForNextPart = 0.1f, enemyPrefab = enemy };
-        EnemyWavePart part2 = new() { numberOfEnemies = 5, spacing = 1f, delayForNextPart = 8f, enemyPrefab = enemy };
+        EnemyWavePart part1 = new() { NumberOfEnemies = 1, Spacing = 0.5f, DelayForNextPart = 4f, EnemyPrefab = EnemyPrefab };
+        EnemyWavePart part2 = new() { NumberOfEnemies = 5, Spacing = 1f, DelayForNextPart = 8f, EnemyPrefab = EnemyPrefab };
 
-        EnemyWavePart part3 = new() { numberOfEnemies = 20, spacing = 0.1f, delayForNextPart = 2f, enemyPrefab = enemy };
-        EnemyWavePart part4 = new() { numberOfEnemies = 5, spacing = 0.1f, delayForNextPart = 0.5f, enemyPrefab = toughEnemy };
+        EnemyWavePart part3 = new() { NumberOfEnemies = 20, Spacing = 0.1f, DelayForNextPart = 2f, EnemyPrefab = EnemyPrefab };
+        EnemyWavePart part4 = new() { NumberOfEnemies = 5, Spacing = 0.2f, DelayForNextPart = 7f, EnemyPrefab = ToughEnemyPrefab };
 
-        waves.Add(new() { waveNumber = 1, waveParts = new() { part1, part2 } });
-        waves.Add(new() { waveNumber = 2, waveParts = new() { part3, part4, part1, part1 } });
+        _waves.Add(new() { WaveNumber = 1, WaveParts = new() { part1, part2 } });
+        _waves.Add(new() { WaveNumber = 2, WaveParts = new() { part3, part4, part4, part1 } });
+        _waves.Add(new() { WaveNumber = 3, WaveParts = new() { part4, part4 } });
+
+        _gameManagerScript.StartGame();
+        _canSpawnNextWave = true;
     }
 
     void Update()
     {
-        enemyCount = FindObjectsOfType<Enemy>().Length;
-
-        if(enemyCount == 0)
+        if (Enemies.Count == 0 && _gameManagerScript.IsGameActive && _canSpawnNextWave)
         {
-            if(gameManagerScript.waveNumber <= waves.Count)
+            if (_gameManagerScript.WaveNumber <= _waves.Count)
             {
-                gameManagerScript.UpdateWaveText(1);
-                StartCoroutine(SpawnEnemyWave(gameManagerScript.waveNumber));
+                _gameManagerScript.UpdateWaveText(1);
+                StartCoroutine(SpawnEnemyWave(_gameManagerScript.WaveNumber));
             }
         }
     }
 
     IEnumerator SpawnEnemyWave(int waveNumber)
     {
-        if (waveNumber <= waves.Count)
+        _canSpawnNextWave = false;
+        if (waveNumber <= _waves.Count)
         {
-            foreach(EnemyWavePart wavePart in waves[waveNumber - 1].waveParts)
+            for (int i = 0; i < _waves[waveNumber - 1].WaveParts.Count; i++)
             {
-                StartCoroutine(SpawnEnemyWavePart(wavePart));
-                yield return new WaitForSeconds(wavePart.delayForNextPart);
+                if (!_gameManagerScript.IsGameActive)
+                    yield break;
+                StartCoroutine(SpawnEnemyWavePart(_waves[waveNumber - 1].WaveParts[i], i));
+                yield return new WaitForSeconds(_waves[waveNumber - 1].WaveParts[i].DelayForNextPart);
             }
         }
         yield break;
     }
 
-    IEnumerator SpawnEnemyWavePart(EnemyWavePart enemyWavePart)
+    IEnumerator SpawnEnemyWavePart(EnemyWavePart enemyWavePart, int partIndex)
     {
-        for(int i = 0; i < enemyWavePart.numberOfEnemies; i++)
+        for (int i = 0; i < enemyWavePart.NumberOfEnemies; i++)
         {
-            Instantiate(enemyWavePart.enemyPrefab, startPoint.transform.position, enemyWavePart.enemyPrefab.transform.rotation);
-            yield return new WaitForSeconds(enemyWavePart.spacing);
+            if (!_gameManagerScript.IsGameActive)
+                yield break;
+            Enemies.Add(Instantiate(enemyWavePart.EnemyPrefab, _gameManagerScript.Points[0].transform.position, enemyWavePart.EnemyPrefab.transform.rotation));
+            yield return new WaitForSeconds(enemyWavePart.Spacing);
         }
-
+        _canSpawnNextWave = IsEnemyWavePartLast(partIndex);
         yield break;
+    }
+
+    private bool IsEnemyWavePartLast(int partIndex)
+    {
+        if (partIndex == _waves[_gameManagerScript.WaveNumber - 1].WaveParts.Count - 1)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void RemoveEnemyFromList(GameObject enemy)
+    {
+        Enemies.Remove(enemy);
     }
 }

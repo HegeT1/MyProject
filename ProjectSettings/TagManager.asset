@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Start
   - End
+  - GameManager
+  - SpawnManager
+  - RangeRadius
+  - Enemy
   layers:
   - Default
   - TransparentFX
