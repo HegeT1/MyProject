@@ -102,14 +102,7 @@ public class Tower : MonoBehaviour
                 if (enemy != null)
                 {
                     GameObject projectile = Instantiate(Projectile, gameObject.transform.position, Projectile.transform.rotation, gameObject.transform);
-                    ProjectileStats stats = new ProjectileStats()
-                    {
-                        Damage = Damage,
-                        Speed = 10,
-                        Target = enemy,
-                        TimeTilAlive = 2
-                    };
-                    projectile.GetComponent<Projectile>().SetStats(stats);
+                    projectile.GetComponent<Projectile>().SetTarget(GetTargetedEnemy(i));
                 }
             }
             yield return new WaitForSeconds(Speed);

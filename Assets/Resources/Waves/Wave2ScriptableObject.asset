@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ab4574b4acf0742bfba2d8b209bfba, type: 3}
+  m_Name: Wave2ScriptableObject
+  m_EditorClassIdentifier: 
+  WaveNumber: 2
+  WaveType: 0
+  WaveParts:
+  - EnemyCount: 2
+    EnemySpacing: 0.5
+    EnemyObject: {fileID: 11400000, guid: 43d4d7964675a7a40a132305ca61c6eb, type: 2}
+    DelayForNextPart: 2
+  - EnemyCount: 5
+    EnemySpacing: 0.2
+    EnemyObject: {fileID: 11400000, guid: 43d4d7964675a7a40a132305ca61c6eb, type: 2}
+    DelayForNextPart: 0

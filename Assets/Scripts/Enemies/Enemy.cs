@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
@@ -10,17 +11,13 @@ public class Enemy : MonoBehaviour
 
     private int _currentPointIndex = 0;
 
-    [field: SerializeField] public float MoveSpeed { get; private set; }
-    [field: SerializeField] public float MaxHealthPoints { get; private set; }
+    [SerializeField] private EnemyStats _stats;
     [field: SerializeField] public float CurrentHealthPoints { get; private set; }
-    [field: SerializeField] public int DamageToPlayer { get; private set; }
-    private HealthBar _healthBarScritp;
 
-    [SerializeField] private EnemyScriptableObject _stats;
+    private HealthBar _healthBarScritp;
 
     void Start()
     {
-        CurrentHealthPoints = MaxHealthPoints;
         _gameManagerScript = GameObject.Find("Game Manager").GetComponent<GameManager>();
         _spawnManagerScript = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
         _healthBarScritp = GetComponentInChildren<HealthBar>();
@@ -33,7 +30,7 @@ public class Enemy : MonoBehaviour
     {
         if (_currentPointIndex < _gameManagerScript.Points.Count)
         {
-            transform.position = Vector2.MoveTowards(transform.position, _gameManagerScript.Points[_currentPointIndex].transform.position, MoveSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, _gameManagerScript.Points[_currentPointIndex].transform.position, _stats.MoveSpeed * Time.deltaTime);
 
             if (transform.position == _gameManagerScript.Points[_currentPointIndex].transform.position)
             {
@@ -46,10 +43,16 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("End"))
         {
-            _gameManagerScript.UpdatePlayerHealth(-DamageToPlayer);
+            _gameManagerScript.UpdatePlayerHealth(-_stats.DamageToPlayer);
             _spawnManagerScript.RemoveEnemyFromList(gameObject);
             Destroy(gameObject);
         }
+    }
+
+    public void SetStats(EnemyStats stats)
+    {
+        _stats = stats;
+        CurrentHealthPoints = _stats.MaxHealthPoints;
     }
 
     public void TakeDamage(float damage)
@@ -58,13 +61,13 @@ public class Enemy : MonoBehaviour
         if(CurrentHealthPoints <= 0)
         {
             CurrentHealthPoints = 0;
-            _healthBarScritp.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
+            _healthBarScritp.UpdateHealthBar(CurrentHealthPoints, _stats.MaxHealthPoints);
             GameObject.Find("Spawn Manager").GetComponent<SpawnManager>().RemoveEnemyFromList(gameObject);
             Destroy(gameObject);
         }
         else
         {
-            _healthBarScritp.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
+            _healthBarScritp.UpdateHealthBar(CurrentHealthPoints, _stats.MaxHealthPoints);
         }
     }
 }

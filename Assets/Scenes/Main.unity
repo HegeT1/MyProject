@@ -1066,8 +1066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b8581e1f3c0d84ea5d15a5fe1a7c13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyPrefab: {fileID: 2981980615554859643, guid: 2565b62042af7684e90c62cc25a5c5f3, type: 3}
-  ToughEnemyPrefab: {fileID: 3635529389637577330, guid: d0b29bb9f404bce4388a71a5a5e69763, type: 3}
+  _waves: []
   <Enemies>k__BackingField: []
 --- !u!4 &850131954
 Transform:
@@ -1474,7 +1473,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1202535629
 GameObject:
@@ -1895,7 +1894,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9211315886901840682, guid: 2de197e78ecf96644aa49059a8348b31, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9211315886901840682, guid: 2de197e78ecf96644aa49059a8348b31, type: 3}
       propertyPath: m_LocalPosition.x

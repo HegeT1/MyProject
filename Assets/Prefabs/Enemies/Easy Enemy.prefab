@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 8157818822875512724}
   - component: {fileID: 6935538916807490500}
   m_Layer: 0
-  m_Name: Normal Enemy
+  m_Name: Easy Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -278,11 +278,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e8449ead326088499f06e54e5188eff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MoveSpeed>k__BackingField: 2
-  <MaxHealthPoints>k__BackingField: 3
   <CurrentHealthPoints>k__BackingField: 0
-  <DamageToPlayer>k__BackingField: 2
-  _stats: {fileID: 11400000, guid: 43d4d7964675a7a40a132305ca61c6eb, type: 2}
+  _stats:
+    MoveSpeed: 0
+    MaxHealthPoints: 0
+    DamageToPlayer: 0
+  _test: {fileID: 11400000, guid: 43d4d7964675a7a40a132305ca61c6eb, type: 2}
 --- !u!61 &6935538916807490500
 BoxCollider2D:
   m_ObjectHideFlags: 0
