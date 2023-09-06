@@ -40,13 +40,13 @@ public class SpawnManager : MonoBehaviour
         _canSpawnNextWave = false;
         if (waveNumber <= _waves.Count)
         {
-            WaveScriptableObject wave = _waves.Find(x => x.WaveNumber == waveNumber);
-            for (int i = 0; i < wave.WaveParts.Count; i++)
+            WaveScriptableObject wave = _waves.Find(x => x.Number == waveNumber);
+            for (int i = 0; i < wave.Parts.Count; i++)
             {
                 if (!_gameManagerScript.IsGameActive)
                     yield break;
-                StartCoroutine(SpawnEnemyWavePart(wave.WaveParts[i], i));
-                yield return new WaitForSeconds(wave.WaveParts[i].DelayForNextPart);
+                StartCoroutine(SpawnEnemyWavePart(wave.Parts[i], i));
+                yield return new WaitForSeconds(wave.Parts[i].DelayForNextPart);
             }
         }
         yield break;
@@ -74,7 +74,7 @@ public class SpawnManager : MonoBehaviour
 
     bool IsEnemyWavePartLast(int partIndex)
     {
-        if (partIndex == _waves[_gameManagerScript.WaveNumber - 1].WaveParts.Count - 1)
+        if (partIndex == _waves[_gameManagerScript.WaveNumber - 1].Parts.Count - 1)
         {
             return true;
         }

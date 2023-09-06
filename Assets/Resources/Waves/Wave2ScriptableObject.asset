@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ab4574b4acf0742bfba2d8b209bfba, type: 3}
   m_Name: Wave2ScriptableObject
   m_EditorClassIdentifier: 
-  WaveNumber: 2
-  WaveType: 0
-  WaveParts:
-  - EnemyCount: 2
-    EnemySpacing: 0.5
+  <Number>k__BackingField: 2
+  <Type>k__BackingField: 0
+  <Parts>k__BackingField:
+  - EnemyCount: 3
+    EnemySpacing: 0.3
     EnemyObject: {fileID: 11400000, guid: 43d4d7964675a7a40a132305ca61c6eb, type: 2}
     DelayForNextPart: 2
   - EnemyCount: 5
-    EnemySpacing: 0.2
+    EnemySpacing: 0.5
     EnemyObject: {fileID: 11400000, guid: 43d4d7964675a7a40a132305ca61c6eb, type: 2}
     DelayForNextPart: 0

@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07cc161a7eb955d43a267bd7277a700d, type: 3}
   m_Name: MediumEnemyScriptableObject
   m_EditorClassIdentifier: 
-  Type: 1
   <BaseStats>k__BackingField:
-    MoveSpeed: 5
+    MoveSpeed: 4
     MaxHealthPoints: 5
     DamageToPlayer: 3
-  Prefab: {fileID: 3635529389637577330, guid: d0b29bb9f404bce4388a71a5a5e69763, type: 3}
+  <Prefab>k__BackingField: {fileID: 3635529389637577330, guid: d0b29bb9f404bce4388a71a5a5e69763, type: 3}

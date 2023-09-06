@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07cc161a7eb955d43a267bd7277a700d, type: 3}
-  m_Name: EasyEnemyScriptableObject
+  m_Script: {fileID: 11500000, guid: 481e8408204e8c84daf296f4a76c33b2, type: 3}
+  m_Name: ArcherScriptableObject
   m_EditorClassIdentifier: 
   <BaseStats>k__BackingField:
-    MoveSpeed: 2
-    MaxHealthPoints: 3
-    DamageToPlayer: 2
-  <Prefab>k__BackingField: {fileID: 2981980615554859643, guid: 2565b62042af7684e90c62cc25a5c5f3, type: 3}
+    Range: 3
+    AttackSpeed: 1
+    Damage: 2
+    TargetableEnemies: 1
+  <Projectile>k__BackingField: {fileID: 11400000, guid: 9066f7f2392d4864e819c41f6d1c0c81, type: 2}

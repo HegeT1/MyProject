@@ -9,21 +9,19 @@ public enum TowerState { Idle, Fireing }
 
 public class Tower : MonoBehaviour
 {
-    [field: SerializeField] public float Radius { get; private set; }
-    [field: SerializeField] public float Speed { get; private set; }
-    [field: SerializeField] public float Damage { get; private set; }
+    [SerializeField] private TowerScriptableObject TowerScriptableObject;
+    [SerializeField] private TowerStats TowerStats;
+    [SerializeField] private ProjectileStats ProjectileStats;
 
-    [field: SerializeField] public List<GameObject> EnemiesInRange { get; private set; }
-    public int _targetableEnemies = 1;
-
-    public GameObject Projectile;
+    [SerializeField] private TowerState TowerState = TowerState.Idle;
+    private List<GameObject> EnemiesInRange;
     private bool _isMouseOnObject;
-    [field: SerializeField] public TowerState TowerState { get; private set; } = TowerState.Idle;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        SetStats(TowerScriptableObject.BaseStats);
+        SetProjectileStats(TowerScriptableObject.Projectile.BaseStats);
     }
 
     // Update is called once per frame
@@ -39,7 +37,7 @@ public class Tower : MonoBehaviour
         {
             StartCoroutine(StartShootingProjectiles());
         }
-        gameObject.transform.GetChild(0).gameObject.transform.localScale = new(2 * Radius, 2 * Radius, 0);
+        gameObject.transform.GetChild(0).gameObject.transform.localScale = new(2 * TowerStats.Range, 2 * TowerStats.Range, 0);
     }
 
     private void OnMouseDown()
@@ -70,7 +68,7 @@ public class Tower : MonoBehaviour
         List<GameObject> enemies = new();
         foreach(GameObject enemy in GameObject.Find("Spawn Manager").GetComponent<SpawnManager>().Enemies)
         {
-            if(GetDistanceGetweenTowerEnemy(enemy) <= Radius)
+            if(GetDistanceGetweenTowerEnemy(enemy) <= TowerStats.Range)
             {
                 enemies.Add(enemy);
             }
@@ -96,16 +94,24 @@ public class Tower : MonoBehaviour
                 yield break;
             }
 
-            for(int i = 0; i < _targetableEnemies; i++)
+            for(int i = 0; i < TowerStats.TargetableEnemies; i++)
             {
                 GameObject enemy = GetTargetedEnemy(i);
                 if (enemy != null)
                 {
-                    GameObject projectile = Instantiate(Projectile, gameObject.transform.position, Projectile.transform.rotation, gameObject.transform);
-                    projectile.GetComponent<Projectile>().SetTarget(GetTargetedEnemy(i));
+                    GameObject projectile = Instantiate(TowerScriptableObject.Projectile.Prefab, gameObject.transform.position, TowerScriptableObject.Projectile.Prefab.transform.rotation, gameObject.transform);
+                    Projectile projectileScript = projectile.GetComponent<Projectile>();
+                    projectileScript.SetTarget(GetTargetedEnemy(i));
+
+                    projectileScript.SetCharacteristics(ProjectileStats, TowerScriptableObject.Projectile.Type, TowerStats.Damage);
+
+                    
+
+                    //projectileScript.SetCharacteristics(ProjectileStats, TowerStats.Projectile.ProjectileType, TowerStats.Damage);
                 }
             }
-            yield return new WaitForSeconds(Speed);
+            // Higher AttackSpeed means faster attacking
+            yield return new WaitForSeconds(1 / TowerStats.AttackSpeed);
         }
     }
 
@@ -115,5 +121,15 @@ public class Tower : MonoBehaviour
             return EnemiesInRange[enemyPosition];
         else
             return null;
+    }
+
+    public void SetStats(TowerStats towerStats)
+    {
+        TowerStats = towerStats;
+    }
+
+    public void SetProjectileStats(ProjectileStats projectileStats)
+    {
+        ProjectileStats = projectileStats;
     }
 }

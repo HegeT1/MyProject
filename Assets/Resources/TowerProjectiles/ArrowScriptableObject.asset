@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07cc161a7eb955d43a267bd7277a700d, type: 3}
-  m_Name: EasyEnemyScriptableObject
+  m_Script: {fileID: 11500000, guid: 6f0fb677ef259ed4499b130c1eb6ab03, type: 3}
+  m_Name: ArrowScriptableObject
   m_EditorClassIdentifier: 
   <BaseStats>k__BackingField:
-    MoveSpeed: 2
-    MaxHealthPoints: 3
-    DamageToPlayer: 2
-  <Prefab>k__BackingField: {fileID: 2981980615554859643, guid: 2565b62042af7684e90c62cc25a5c5f3, type: 3}
+    Speed: 5
+    UpTime: 2
+    Pierce: 1
+  <Type>k__BackingField: 0
+  <Prefab>k__BackingField: {fileID: 3475408080010265132, guid: 08c365a73a50a754cb907e71984bfc64, type: 3}

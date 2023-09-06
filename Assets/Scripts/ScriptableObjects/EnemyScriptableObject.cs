@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyScriptableObject : ScriptableObject
 {
     [field: SerializeField] public EnemyStats BaseStats { get; private set; }
-    public GameObject Prefab;
+    [field: SerializeField] public GameObject Prefab { get; private set; }
 }
 
 [Serializable]

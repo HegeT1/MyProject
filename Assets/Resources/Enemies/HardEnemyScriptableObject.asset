@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HardEnemyScriptableObject
   m_EditorClassIdentifier: 
   <BaseStats>k__BackingField:
-    MoveSpeed: 8
+    MoveSpeed: 6
     MaxHealthPoints: 10
     DamageToPlayer: 5
-  Prefab: {fileID: 0}
+  <Prefab>k__BackingField: {fileID: 3635529389637577330, guid: 6e7e0bbf495694241a4558f418fb4b2a, type: 3}

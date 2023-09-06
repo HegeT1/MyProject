@@ -5,9 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WaveScriptableObject", menuName = "ScriptableObjects/Wave")]
 public class WaveScriptableObject : ScriptableObject
 {
-    public int WaveNumber;
-    public WaveType WaveType;
-    public List<WavePart> WaveParts;
+    [field: SerializeField] public int Number { get; private set; }
+    [field: SerializeField] public WaveType Type { get; private set; }
+    [field: SerializeField] public List<WavePart> Parts { get; private set; }
 }
 
 [Serializable]

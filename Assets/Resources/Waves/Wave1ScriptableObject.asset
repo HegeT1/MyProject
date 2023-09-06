@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ab4574b4acf0742bfba2d8b209bfba, type: 3}
   m_Name: Wave1ScriptableObject
   m_EditorClassIdentifier: 
-  WaveNumber: 1
-  WaveType: 0
-  WaveParts:
+  <Number>k__BackingField: 1
+  <Type>k__BackingField: 0
+  <Parts>k__BackingField:
   - EnemyCount: 5
-    EnemySpacing: 2
+    EnemySpacing: 1
     EnemyObject: {fileID: 11400000, guid: 43d4d7964675a7a40a132305ca61c6eb, type: 2}
     DelayForNextPart: 0
