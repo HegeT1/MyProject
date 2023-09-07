@@ -16,4 +16,4 @@ MonoBehaviour:
     MoveSpeed: 2
     MaxHealthPoints: 3
     DamageToPlayer: 2
-  <Prefab>k__BackingField: {fileID: 2981980615554859643, guid: 2565b62042af7684e90c62cc25a5c5f3, type: 3}
+  <Prefab>k__BackingField: {fileID: 3996356292445781015, guid: a9bf8f0b05d2a274ba9a30f7a4fc488a, type: 3}

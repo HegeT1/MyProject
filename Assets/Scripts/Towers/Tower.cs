@@ -99,15 +99,28 @@ public class Tower : MonoBehaviour
                 GameObject enemy = GetTargetedEnemy(i);
                 if (enemy != null)
                 {
+                    // Rotates the tower to face the target
+                    Vector3 targetPos = enemy.transform.position;
+                    targetPos.z = 0f;
+
+                    Vector3 towerPos = transform.position;
+                    targetPos.x -= towerPos.x;
+                    targetPos.y -= towerPos.y;
+
+                    float angle = Mathf.Abs(Mathf.Atan2(targetPos.y, targetPos.x) * Mathf.Rad2Deg);
+                    Debug.Log(angle);
+                    if (angle < 90)
+                        angle = 0;
+                    else
+                        angle = 180;
+
+                    transform.rotation = Quaternion.Euler(new Vector3(0, angle, 0));
+
                     GameObject projectile = Instantiate(TowerScriptableObject.Projectile.Prefab, gameObject.transform.position, TowerScriptableObject.Projectile.Prefab.transform.rotation, gameObject.transform);
                     Projectile projectileScript = projectile.GetComponent<Projectile>();
                     projectileScript.SetTarget(GetTargetedEnemy(i));
 
                     projectileScript.SetCharacteristics(ProjectileStats, TowerScriptableObject.Projectile.Type, TowerStats.Damage);
-
-                    
-
-                    //projectileScript.SetCharacteristics(ProjectileStats, TowerStats.Projectile.ProjectileType, TowerStats.Damage);
                 }
             }
             // Higher AttackSpeed means faster attacking

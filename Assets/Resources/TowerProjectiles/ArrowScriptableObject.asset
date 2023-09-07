@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ArrowScriptableObject
   m_EditorClassIdentifier: 
   <BaseStats>k__BackingField:
-    Speed: 5
+    Speed: 10
     UpTime: 2
     Pierce: 1
   <Type>k__BackingField: 0

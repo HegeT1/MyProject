@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.UI;
@@ -15,13 +16,14 @@ public class Enemy : MonoBehaviour
     [field: SerializeField] public float CurrentHealthPoints { get; private set; }
 
     private HealthBar _healthBarScritp;
+    [SerializeField] private GameObject _damageTakenText;
 
     void Start()
     {
         _gameManagerScript = GameObject.Find("Game Manager").GetComponent<GameManager>();
         _spawnManagerScript = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
         _healthBarScritp = GetComponentInChildren<HealthBar>();
-
+        
         transform.position = _gameManagerScript.Points[_currentPointIndex].transform.position;
     }
 
@@ -58,16 +60,20 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage)
     {
         CurrentHealthPoints -= damage;
-        if(CurrentHealthPoints <= 0)
+        ShowDamageTaken(damage);
+        _healthBarScritp.UpdateHealthBar(CurrentHealthPoints, _stats.MaxHealthPoints);
+        if (CurrentHealthPoints <= 0)
         {
             CurrentHealthPoints = 0;
-            _healthBarScritp.UpdateHealthBar(CurrentHealthPoints, _stats.MaxHealthPoints);
             GameObject.Find("Spawn Manager").GetComponent<SpawnManager>().RemoveEnemyFromList(gameObject);
             Destroy(gameObject);
         }
-        else
-        {
-            _healthBarScritp.UpdateHealthBar(CurrentHealthPoints, _stats.MaxHealthPoints);
-        }
+    }
+
+    private void ShowDamageTaken(float damage)
+    {
+        Vector3 offset = new(0.3f, 0.3f, 0);
+        GameObject damageText = Instantiate(_damageTakenText, transform.position + offset, _damageTakenText.transform.rotation);
+        damageText.GetComponent<DamageTaken>().SetText(damage, DamageType.Normal, 0.4f);
     }
 }
