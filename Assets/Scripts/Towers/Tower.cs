@@ -16,12 +16,14 @@ public class Tower : MonoBehaviour
     [SerializeField] private TowerState TowerState = TowerState.Idle;
     private List<GameObject> EnemiesInRange;
     private bool _isMouseOnObject;
+    private Animator _animator;
 
     // Start is called before the first frame update
     void Start()
     {
         SetStats(TowerScriptableObject.BaseStats);
         SetProjectileStats(TowerScriptableObject.Projectile.BaseStats);
+        _animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -108,7 +110,6 @@ public class Tower : MonoBehaviour
                     targetPos.y -= towerPos.y;
 
                     float angle = Mathf.Abs(Mathf.Atan2(targetPos.y, targetPos.x) * Mathf.Rad2Deg);
-                    Debug.Log(angle);
                     if (angle < 90)
                         angle = 0;
                     else
@@ -116,6 +117,8 @@ public class Tower : MonoBehaviour
 
                     transform.rotation = Quaternion.Euler(new Vector3(0, angle, 0));
 
+                    _animator.SetFloat("SpeedMultiplier", TowerStats.AttackSpeed);
+                    _animator.SetTrigger("Shoot");
                     GameObject projectile = Instantiate(TowerScriptableObject.Projectile.Prefab, gameObject.transform.position, TowerScriptableObject.Projectile.Prefab.transform.rotation, gameObject.transform);
                     Projectile projectileScript = projectile.GetComponent<Projectile>();
                     projectileScript.SetTarget(GetTargetedEnemy(i));

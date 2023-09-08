@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3263641197500328674}
   - component: {fileID: 6318545278003739032}
   - component: {fileID: -2846575842847538786}
+  - component: {fileID: 4049408899064593291}
   m_Layer: 0
   m_Name: Archer
   m_TagString: Untagged
@@ -33,7 +34,7 @@ Transform:
   m_Children:
   - {fileID: 924459638335393767}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3263641197500328674
 SpriteRenderer:
@@ -150,8 +151,32 @@ MonoBehaviour:
     AttackSpeed: 0
     Damage: 0
     TargetableEnemies: 0
-    Projectile: {fileID: 0}
+  ProjectileStats:
+    Speed: 0
+    UpTime: 0
+    Pierce: 0
   TowerState: 0
+--- !u!95 &4049408899064593291
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487383652057551414}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cc6be34095896ef4d8a754735e6770f4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2864265292831122315
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,22 +15,27 @@ public class Enemy : MonoBehaviour
     [SerializeField] private EnemyStats _stats;
     [field: SerializeField] public float CurrentHealthPoints { get; private set; }
 
+    [SerializeField] private Slider _healthBarSlider;
     private HealthBar _healthBarScritp;
     [SerializeField] private GameObject _damageTakenText;
+    private Animator _animator;
+    private bool _canMove;
 
     void Start()
     {
         _gameManagerScript = GameObject.Find("Game Manager").GetComponent<GameManager>();
         _spawnManagerScript = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
         _healthBarScritp = GetComponentInChildren<HealthBar>();
+        _animator = GetComponentInChildren<Animator>();
         
+        _canMove = true;
         transform.position = _gameManagerScript.Points[_currentPointIndex].transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_currentPointIndex < _gameManagerScript.Points.Count)
+        if (_currentPointIndex < _gameManagerScript.Points.Count && _canMove)
         {
             transform.position = Vector2.MoveTowards(transform.position, _gameManagerScript.Points[_currentPointIndex].transform.position, _stats.MoveSpeed * Time.deltaTime);
 
@@ -64,9 +69,16 @@ public class Enemy : MonoBehaviour
         _healthBarScritp.UpdateHealthBar(CurrentHealthPoints, _stats.MaxHealthPoints);
         if (CurrentHealthPoints <= 0)
         {
+            _healthBarSlider.gameObject.SetActive(false);
+            _canMove = false;
+            _animator.SetTrigger("Dead");
             CurrentHealthPoints = 0;
             GameObject.Find("Spawn Manager").GetComponent<SpawnManager>().RemoveEnemyFromList(gameObject);
-            Destroy(gameObject);
+            Destroy(gameObject, 0.5f);
+        }
+        else
+        {
+            _animator.SetTrigger("TakeDamage");
         }
     }
 

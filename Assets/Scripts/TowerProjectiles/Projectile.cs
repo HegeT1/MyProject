@@ -39,10 +39,11 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            GetComponent<Collider2D>().enabled = false;
             collision.gameObject.GetComponent<Enemy>().TakeDamage(_damageToCause);
             HandlePierce();
-            if(ProjectileStats.Pierce <= 0)
-                Destroy(gameObject);
+            //if(ProjectileStats.Pierce <= 0)
+            //    Destroy(gameObject);
         }
     }
 
