@@ -12,6 +12,7 @@ public class Projectile : MonoBehaviour
     private float _damageToCause;
     public ProjectileStats ProjectileStats;
     private bool _isRotationSet;
+    private bool _isAtMaxPierce; // To prevent the projectile hitting multiple targets if they are on top of eachother
 
     // Start is called before the first frame update
     void Start()
@@ -37,13 +38,15 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy") && !_isAtMaxPierce)
         {
-            GetComponent<Collider2D>().enabled = false;
             collision.gameObject.GetComponent<Enemy>().TakeDamage(_damageToCause);
             HandlePierce();
-            //if(ProjectileStats.Pierce <= 0)
-            //    Destroy(gameObject);
+            if(ProjectileStats.Pierce <= 0)
+            {
+                _isAtMaxPierce = true;
+                Destroy(gameObject);
+            }
         }
     }
 

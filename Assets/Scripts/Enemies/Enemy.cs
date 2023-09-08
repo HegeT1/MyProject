@@ -84,7 +84,11 @@ public class Enemy : MonoBehaviour
 
     private void ShowDamageTaken(float damage)
     {
-        Vector3 offset = new(0.3f, 0.3f, 0);
+        // Make the displayed damage a random position
+        float xOffset = Random.Range(0.2f, 0.5f);
+        float yOffset = Random.Range(0.2f, 0.5f);
+        Vector3 offset = new(xOffset, yOffset, 0);
+        
         GameObject damageText = Instantiate(_damageTakenText, transform.position + offset, _damageTakenText.transform.rotation);
         damageText.GetComponent<DamageTaken>().SetText(damage, DamageType.Normal, 0.4f);
     }
