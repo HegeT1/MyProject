@@ -8,9 +8,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4282979041313928307, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: cc6be34095896ef4d8a754735e6770f4, type: 2}
     - target: {fileID: 5660897997069048882, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.082
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7616697860113554893, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_Size.x
@@ -27,6 +31,22 @@ PrefabInstance:
     - target: {fileID: 7616697860113554893, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7748845357025882165, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
+      propertyPath: m_Size.x
+      value: 0.65831846
+      objectReference: {fileID: 0}
+    - target: {fileID: 7748845357025882165, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
+      propertyPath: m_Size.y
+      value: 0.74102706
+      objectReference: {fileID: 0}
+    - target: {fileID: 7748845357025882165, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.10968897
+      objectReference: {fileID: 0}
+    - target: {fileID: 7748845357025882165, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.005982429
       objectReference: {fileID: 0}
     - target: {fileID: 7969806589635531309, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_Name
@@ -78,11 +98,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8450798306900960091, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8795512760161023830, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -109,8 +129,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f5229f1ee63f5946b2b13be741828e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _towerRange: {fileID: 0}
-  _towerScriptableObject: {fileID: 0}
+  _towerRange: {fileID: 3548865715654868889}
+  _towerScriptableObject: {fileID: 11400000, guid: c533f448ae171ba458b65032c441182a, type: 2}
   _towerStats:
     Range: 0
     AttackSpeed: 0
@@ -121,3 +141,8 @@ MonoBehaviour:
     UpTime: 0
     Pierce: 0
   _towerState: 0
+--- !u!1 &3548865715654868889 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8795512760161023830, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
+  m_PrefabInstance: {fileID: 5426814263265822927}
+  m_PrefabAsset: {fileID: 0}

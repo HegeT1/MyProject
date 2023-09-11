@@ -6,7 +6,7 @@ using UnityEngine;
 public class ProjectileScriptableObject : ScriptableObject
 {
     [field: SerializeField] public ProjectileStats BaseStats { get;  set; }
-    [field: SerializeField]  public ProjectileType Type { get; set; }
+    [field: SerializeField] public ProjectileType Type { get; set; }
     [field: SerializeField] public GameObject Prefab { get; private set; }
 }
 
@@ -21,9 +21,8 @@ public struct ProjectileStats
 [Serializable]
 public enum ProjectileType
 {
-    Normal,
+    Linear,
     Homing,
-    Bounce,
-    NormalBounce,
+    LinearBounce,
     AOE
 }

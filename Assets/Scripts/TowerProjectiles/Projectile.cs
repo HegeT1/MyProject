@@ -7,7 +7,9 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    private GameObject _target;
+    private SpawnManager _spawnManagerScript;
+
+    [SerializeField] private GameObject _target;
     private ProjectileType _projectileType;
     private float _damageToCause;
     public ProjectileStats ProjectileStats;
@@ -17,6 +19,7 @@ public class Projectile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _spawnManagerScript = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
         StartCoroutine(StartProjectileUpTimer());
     }
 
@@ -25,11 +28,14 @@ public class Projectile : MonoBehaviour
     {
         switch (_projectileType)
         {
-            case ProjectileType.Normal:
-                NormalProjectile();
+            case ProjectileType.Linear:
+                LinearProjectile();
                 break;
             case ProjectileType.Homing:
                 HomingProjectile();
+                break;
+            case ProjectileType.LinearBounce:
+                LinearBounceProjectile();
                 break;
             default:
                 break;
@@ -40,13 +46,17 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") && !_isAtMaxPierce)
         {
-            collision.gameObject.GetComponent<Enemy>().TakeDamage(_damageToCause);
             HandlePierce();
             if(ProjectileStats.Pierce <= 0)
             {
                 _isAtMaxPierce = true;
                 Destroy(gameObject);
             }
+
+            if (_projectileType == ProjectileType.LinearBounce)
+                GetNextTarget();
+
+            collision.gameObject.GetComponent<Enemy>().TakeDamage(_damageToCause);
         }
     }
 
@@ -76,10 +86,10 @@ public class Projectile : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void NormalProjectile()
+    private void LookAtTarget()
     {
         // Sets the rotation of the projectile to point at the target
-        if(_target != null && !_isRotationSet)
+        if (_target != null)
         {
             Vector3 targetPos = _target.transform.position;
             targetPos.z = 0f;
@@ -90,14 +100,21 @@ public class Projectile : MonoBehaviour
 
             float angle = Mathf.Atan2(targetPos.y, targetPos.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-
-            _isRotationSet = true;
         }
+    }
 
-        if(_isRotationSet)
-        {
-            transform.Translate(Time.deltaTime * ProjectileStats.Speed * Vector2.right);
-        }
+    private void MoveProjectile()
+    {
+        transform.Translate(Time.deltaTime * ProjectileStats.Speed * Vector2.right);
+    }
+
+    private void LinearProjectile()
+    {
+        if(!_isRotationSet)
+            LookAtTarget();
+        _isRotationSet = true;
+        
+        MoveProjectile();
     }
 
     private void HomingProjectile()
@@ -105,11 +122,36 @@ public class Projectile : MonoBehaviour
         if (_target == null)
         {
             Destroy(gameObject);
+            return;
         }
-        if (_target != null)
+
+        LookAtTarget();
+        MoveProjectile();
+    }
+
+    private void LinearBounceProjectile()
+    {
+        LinearProjectile();
+        _isRotationSet = false;
+    }
+
+    private void GetNextTarget()
+    {
+        int targetIndex = _spawnManagerScript.Enemies.IndexOf(_target);
+
+        // Set next target to behind the initial one
+        int nextTargetIndex = targetIndex + 1;
+
+        // Sets next target to first if there are no targets behind the initial one
+        if (nextTargetIndex >= _spawnManagerScript.Enemies.Count)
+            nextTargetIndex = targetIndex - 1;
+
+        if(targetIndex == - 1 || nextTargetIndex >= _spawnManagerScript.Enemies.Count || nextTargetIndex == - 1)
         {
-            Vector2 direction = (_target.transform.position - transform.position).normalized;
-            transform.Translate(Time.deltaTime * ProjectileStats.Speed * direction);
+            _target = null;
+            return;
         }
+
+        _target = _spawnManagerScript.Enemies[nextTargetIndex];
     }
 }

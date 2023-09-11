@@ -24,7 +24,7 @@ public class Tower : MonoBehaviour
     {
         SetStats(_towerScriptableObject.BaseStats);
         SetProjectileStats(_towerScriptableObject.Projectile.BaseStats);
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -122,7 +122,9 @@ public class Tower : MonoBehaviour
                     _animator.SetTrigger("Shoot");
                     GameObject projectile = Instantiate(_towerScriptableObject.Projectile.Prefab, gameObject.transform.position, _towerScriptableObject.Projectile.Prefab.transform.rotation, gameObject.transform);
                     Projectile projectileScript = projectile.GetComponent<Projectile>();
-                    projectileScript.SetTarget(GetTargetedEnemy(i));
+                    //projectileScript.SetTarget(GetTargetedEnemy(i));
+
+                    projectileScript.SetTarget(GetTargetedEnemy(_enemiesInRange.Count - 1));
 
                     projectileScript.SetCharacteristics(_projectileStats, _towerScriptableObject.Projectile.Type, _towerStats.Damage);
                 }
