@@ -9,49 +9,50 @@ public enum TowerState { Idle, Fireing }
 
 public class Tower : MonoBehaviour
 {
-    [SerializeField] private TowerScriptableObject TowerScriptableObject;
-    [SerializeField] private TowerStats TowerStats;
-    [SerializeField] private ProjectileStats ProjectileStats;
+    [SerializeField] private GameObject _towerRange;
+    [SerializeField] private TowerScriptableObject _towerScriptableObject;
+    [SerializeField] private TowerStats _towerStats;
+    [SerializeField] private ProjectileStats _projectileStats;
 
-    [SerializeField] private TowerState TowerState = TowerState.Idle;
-    private List<GameObject> EnemiesInRange;
+    [SerializeField] private TowerState _towerState = TowerState.Idle;
+    private List<GameObject> _enemiesInRange;
     private bool _isMouseOnObject;
     private Animator _animator;
 
     // Start is called before the first frame update
     void Start()
     {
-        SetStats(TowerScriptableObject.BaseStats);
-        SetProjectileStats(TowerScriptableObject.Projectile.BaseStats);
+        SetStats(_towerScriptableObject.BaseStats);
+        SetProjectileStats(_towerScriptableObject.Projectile.BaseStats);
         _animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        _towerRange.transform.localScale = new(2 * _towerStats.Range, 2 * _towerStats.Range, 0);
+
         if(Input.GetMouseButtonDown(0) && !_isMouseOnObject)
         {
             gameObject.transform.GetChild(0).gameObject.SetActive(false);
         }
 
-        EnemiesInRange = GetEnemiesInRange();
-        if(EnemiesInRange.Count > 0 && TowerState == TowerState.Idle)
+        _enemiesInRange = GetEnemiesInRange();
+        if(_enemiesInRange.Count > 0 && _towerState == TowerState.Idle)
         {
             StartCoroutine(StartShootingProjectiles());
         }
-        gameObject.transform.GetChild(0).gameObject.transform.localScale = new(2 * TowerStats.Range, 2 * TowerStats.Range, 0);
     }
 
     private void OnMouseDown()
     {
-        GameObject towerRadius = gameObject.transform.GetChild(0).gameObject;
-        if(towerRadius.activeSelf)
+        if(_towerRange.activeSelf)
         {
-            towerRadius.SetActive(false);
+            _towerRange.SetActive(false);
         }
         else
         {
-            towerRadius.SetActive(true);
+            _towerRange.SetActive(true);
         }
     }
 
@@ -70,7 +71,7 @@ public class Tower : MonoBehaviour
         List<GameObject> enemies = new();
         foreach(GameObject enemy in GameObject.Find("Spawn Manager").GetComponent<SpawnManager>().Enemies)
         {
-            if(GetDistanceGetweenTowerEnemy(enemy) <= TowerStats.Range)
+            if(GetDistanceGetweenTowerEnemy(enemy) <= _towerStats.Range)
             {
                 enemies.Add(enemy);
             }
@@ -86,17 +87,17 @@ public class Tower : MonoBehaviour
 
     IEnumerator StartShootingProjectiles()
     {
-        TowerState = TowerState.Fireing;
+        _towerState = TowerState.Fireing;
 
-        while(TowerState == TowerState.Fireing)
+        while(_towerState == TowerState.Fireing)
         {
-            if (EnemiesInRange.Count <= 0)
+            if (_enemiesInRange.Count <= 0)
             {
-                TowerState = TowerState.Idle;
+                _towerState = TowerState.Idle;
                 yield break;
             }
 
-            for(int i = 0; i < TowerStats.TargetableEnemies; i++)
+            for(int i = 0; i < _towerStats.TargetableEnemies; i++)
             {
                 GameObject enemy = GetTargetedEnemy(i);
                 if (enemy != null)
@@ -117,35 +118,35 @@ public class Tower : MonoBehaviour
 
                     transform.rotation = Quaternion.Euler(new Vector3(0, angle, 0));
 
-                    _animator.SetFloat("SpeedMultiplier", TowerStats.AttackSpeed);
+                    _animator.SetFloat("SpeedMultiplier", _towerStats.AttackSpeed);
                     _animator.SetTrigger("Shoot");
-                    GameObject projectile = Instantiate(TowerScriptableObject.Projectile.Prefab, gameObject.transform.position, TowerScriptableObject.Projectile.Prefab.transform.rotation, gameObject.transform);
+                    GameObject projectile = Instantiate(_towerScriptableObject.Projectile.Prefab, gameObject.transform.position, _towerScriptableObject.Projectile.Prefab.transform.rotation, gameObject.transform);
                     Projectile projectileScript = projectile.GetComponent<Projectile>();
                     projectileScript.SetTarget(GetTargetedEnemy(i));
 
-                    projectileScript.SetCharacteristics(ProjectileStats, TowerScriptableObject.Projectile.Type, TowerStats.Damage);
+                    projectileScript.SetCharacteristics(_projectileStats, _towerScriptableObject.Projectile.Type, _towerStats.Damage);
                 }
             }
             // Higher AttackSpeed means faster attacking
-            yield return new WaitForSeconds(1 / TowerStats.AttackSpeed);
+            yield return new WaitForSeconds(1 / _towerStats.AttackSpeed);
         }
     }
 
     private GameObject GetTargetedEnemy(int enemyPosition)
     {
-        if(enemyPosition < EnemiesInRange.Count)
-            return EnemiesInRange[enemyPosition];
+        if(enemyPosition < _enemiesInRange.Count)
+            return _enemiesInRange[enemyPosition];
         else
             return null;
     }
 
     public void SetStats(TowerStats towerStats)
     {
-        TowerStats = towerStats;
+        _towerStats = towerStats;
     }
 
     public void SetProjectileStats(ProjectileStats projectileStats)
     {
-        ProjectileStats = projectileStats;
+        _projectileStats = projectileStats;
     }
 }
