@@ -14,4 +14,5 @@ public struct EnemyStats
     public float MoveSpeed;
     public float MaxHealthPoints;
     public int DamageToPlayer;
+    public float MoneyWorth;
 }

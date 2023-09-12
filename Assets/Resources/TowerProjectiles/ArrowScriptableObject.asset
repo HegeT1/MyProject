@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ArrowScriptableObject
   m_EditorClassIdentifier: 
   <BaseStats>k__BackingField:
-    Speed: 8
+    Speed: 10
     UpTime: 2
-    Pierce: 2
-  <Type>k__BackingField: 2
+    Pierce: 1
+  <Type>k__BackingField: 0
   <Prefab>k__BackingField: {fileID: 3475408080010265132, guid: 08c365a73a50a754cb907e71984bfc64, type: 3}

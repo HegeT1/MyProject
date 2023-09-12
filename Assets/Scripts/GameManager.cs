@@ -5,26 +5,30 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [field: SerializeField] public List<GameObject> Points { get; private set; }
+    [field: SerializeField] public List<GameObject> Points { get; set; }
 
-    [field: SerializeField] public TextMeshProUGUI WaveText { get; private set; }
-    [field: SerializeField] public TextMeshProUGUI HealthText { get; private set; }
+    [SerializeField] private TextMeshProUGUI _waveText;
+    [SerializeField] private TextMeshProUGUI _healthText;
+    [SerializeField] private TextMeshProUGUI _moneyText;
 
     [field: SerializeField] public int WaveNumber { get; private set; }
     [field: SerializeField] public int PlayerHealth { get; private set; } = 100;
     [field: SerializeField] public bool IsGameActive { get; private set; } = false;
     [field: SerializeField] public bool IsGamePaused { get; private set; } = false;
 
+    [SerializeField] private float _money;
+
     private void Start()
     {
-        UpdateWaveText(0);
+        UpdateWave(0);
         UpdatePlayerHealth(0);
+        UpdateMoney(100);
     }
 
-    public void UpdateWaveText(int waveToAdd)
+    public void UpdateWave(int waveToAdd)
     {
         WaveNumber += waveToAdd;
-        WaveText.SetText("Wave: " + WaveNumber);
+        _waveText.SetText("Wave: " + WaveNumber);
     }
 
     public void UpdatePlayerHealth(int healthToAdd)
@@ -32,11 +36,17 @@ public class GameManager : MonoBehaviour
         PlayerHealth += healthToAdd;
         if (PlayerHealth < 0)
             PlayerHealth = 0;
-        HealthText.SetText("Health: " +  PlayerHealth);
+        _healthText.SetText("Health: " +  PlayerHealth);
         if(PlayerHealth <= 0)
         { 
             IsGameActive = false;
         }
+    }
+
+    public void UpdateMoney(float moneyToAdd)
+    {
+        _money += moneyToAdd;
+        _moneyText.SetText("Money: " + _money);
     }
 
     public void StartGame()

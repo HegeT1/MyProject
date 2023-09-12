@@ -11,7 +11,7 @@ public class SpawnManager : MonoBehaviour
     private GameManager _gameManagerScript;
 
     [field: SerializeField] public List<GameObject> Enemies { get; private set; } = new();
-    private bool _canSpawnNextWave;
+    private List<bool> _allPartsFinished = new();
 
     void Start()
     {
@@ -19,16 +19,15 @@ public class SpawnManager : MonoBehaviour
         _waves = Resources.LoadAll<WaveScriptableObject>("Waves").ToList();
 
         _gameManagerScript.StartGame();
-        _canSpawnNextWave = true;
     }
 
     void Update()
     {
-        if (Enemies.Count == 0 && _gameManagerScript.IsGameActive && _canSpawnNextWave)
+        if (Enemies.Count == 0 && _gameManagerScript.IsGameActive && CheckCanSpawnNextWave())
         {
             if (_gameManagerScript.WaveNumber <= _waves.Count)
             {
-                _gameManagerScript.UpdateWaveText(1);
+                _gameManagerScript.UpdateWave(1);
                 StartCoroutine(SpawnEnemyWave(_gameManagerScript.WaveNumber));
             }
         }
@@ -36,11 +35,14 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnEnemyWave(int waveNumber)
     {
-
-        _canSpawnNextWave = false;
+        _allPartsFinished = new();
         if (waveNumber <= _waves.Count)
         {
             WaveScriptableObject wave = _waves.Find(x => x.Number == waveNumber);
+
+            for(int i = 0; i < wave.Parts.Count; i++) 
+                _allPartsFinished.Add(false);
+
             for (int i = 0; i < wave.Parts.Count; i++)
             {
                 if (!_gameManagerScript.IsGameActive)
@@ -61,7 +63,8 @@ public class SpawnManager : MonoBehaviour
             SpawnEnemy(wavePart.EnemyObject.Prefab, _gameManagerScript.Points[0].transform.position, wavePart.EnemyObject.Prefab.transform.rotation, wavePart.EnemyObject.BaseStats);
             yield return new WaitForSeconds(wavePart.EnemySpacing);
         }
-        _canSpawnNextWave = IsEnemyWavePartLast(partIndex);
+
+        _allPartsFinished[partIndex] = true;
         yield break;
     }
 
@@ -72,13 +75,13 @@ public class SpawnManager : MonoBehaviour
         Enemies.Add(enemy);
     }
 
-    bool IsEnemyWavePartLast(int partIndex)
+    private bool CheckCanSpawnNextWave()
     {
-        if (partIndex == _waves[_gameManagerScript.WaveNumber - 1].Parts.Count - 1)
+        if (_allPartsFinished.Contains(false))
         {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     public void RemoveEnemyFromList(GameObject enemy)

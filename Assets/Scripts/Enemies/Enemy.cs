@@ -74,6 +74,7 @@ public class Enemy : MonoBehaviour
             _animator.SetTrigger("Dead");
             CurrentHealthPoints = 0;
             GameObject.Find("Spawn Manager").GetComponent<SpawnManager>().RemoveEnemyFromList(gameObject);
+            GameObject.Find("Game Manager").GetComponent<GameManager>().UpdateMoney(_stats.MoneyWorth);
             Destroy(gameObject, 0.5f);
         }
         else

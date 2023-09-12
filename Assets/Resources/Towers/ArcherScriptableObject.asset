@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <BaseStats>k__BackingField:
     Range: 3
-    AttackSpeed: 1
+    AttackSpeed: 2
     Damage: 2
     TargetableEnemies: 1
+    Cost: 100
   <Projectile>k__BackingField: {fileID: 11400000, guid: 9066f7f2392d4864e819c41f6d1c0c81, type: 2}

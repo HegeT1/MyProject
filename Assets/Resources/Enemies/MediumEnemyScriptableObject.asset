@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: MediumEnemyScriptableObject
   m_EditorClassIdentifier: 
   <BaseStats>k__BackingField:
-    MoveSpeed: 4
+    MoveSpeed: 3
     MaxHealthPoints: 5
     DamageToPlayer: 3
-  <Prefab>k__BackingField: {fileID: 3635529389637577330, guid: d0b29bb9f404bce4388a71a5a5e69763, type: 3}
+    MoneyWorth: 20
+  <Prefab>k__BackingField: {fileID: 6419143209141596853, guid: 1c4ddca24b92a3746b7e0b1c24cac58f, type: 3}

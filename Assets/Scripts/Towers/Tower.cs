@@ -71,7 +71,7 @@ public class Tower : MonoBehaviour
         List<GameObject> enemies = new();
         foreach(GameObject enemy in GameObject.Find("Spawn Manager").GetComponent<SpawnManager>().Enemies)
         {
-            if(GetDistanceGetweenTowerEnemy(enemy) <= _towerStats.Range)
+            if(GetDistanceBetweenTowerAndEnemy(enemy) <= _towerStats.Range)
             {
                 enemies.Add(enemy);
             }
@@ -80,7 +80,7 @@ public class Tower : MonoBehaviour
         return enemies;
     }
 
-    public float GetDistanceGetweenTowerEnemy(GameObject enemy)
+    public float GetDistanceBetweenTowerAndEnemy(GameObject enemy)
     {
         return Vector2.Distance(enemy.transform.position, transform.position);
     }
@@ -99,32 +99,16 @@ public class Tower : MonoBehaviour
 
             for(int i = 0; i < _towerStats.TargetableEnemies; i++)
             {
-                GameObject enemy = GetTargetedEnemy(i);
-                if (enemy != null)
+                GameObject target = GetTargetedEnemy(i);
+                if (target != null)
                 {
-                    // Rotates the tower to face the target
-                    Vector3 targetPos = enemy.transform.position;
-                    targetPos.z = 0f;
-
-                    Vector3 towerPos = transform.position;
-                    targetPos.x -= towerPos.x;
-                    targetPos.y -= towerPos.y;
-
-                    float angle = Mathf.Abs(Mathf.Atan2(targetPos.y, targetPos.x) * Mathf.Rad2Deg);
-                    if (angle < 90)
-                        angle = 0;
-                    else
-                        angle = 180;
-
-                    transform.rotation = Quaternion.Euler(new Vector3(0, angle, 0));
+                    RotateTowardsTarget(target);
 
                     _animator.SetFloat("SpeedMultiplier", _towerStats.AttackSpeed);
                     _animator.SetTrigger("Shoot");
-                    GameObject projectile = Instantiate(_towerScriptableObject.Projectile.Prefab, gameObject.transform.position, _towerScriptableObject.Projectile.Prefab.transform.rotation, gameObject.transform);
+                    GameObject projectile = Instantiate(_towerScriptableObject.Projectile.Prefab, gameObject.transform.position, _towerScriptableObject.Projectile.Prefab.transform.rotation);
                     Projectile projectileScript = projectile.GetComponent<Projectile>();
-                    //projectileScript.SetTarget(GetTargetedEnemy(i));
-
-                    projectileScript.SetTarget(GetTargetedEnemy(_enemiesInRange.Count - 1));
+                    projectileScript.SetTarget(GetTargetedEnemy(i));
 
                     projectileScript.SetCharacteristics(_projectileStats, _towerScriptableObject.Projectile.Type, _towerStats.Damage);
                 }
@@ -140,6 +124,25 @@ public class Tower : MonoBehaviour
             return _enemiesInRange[enemyPosition];
         else
             return null;
+    }
+
+    private void RotateTowardsTarget(GameObject target)
+    {
+        // Rotates the tower to face the target
+        Vector3 targetPos = target.transform.position;
+        targetPos.z = 0f;
+
+        Vector3 towerPos = transform.position;
+        targetPos.x -= towerPos.x;
+        targetPos.y -= towerPos.y;
+
+        float angle = Mathf.Abs(Mathf.Atan2(targetPos.y, targetPos.x) * Mathf.Rad2Deg);
+        if (angle < 90)
+            angle = 0;
+        else
+            angle = 180;
+
+        transform.rotation = Quaternion.Euler(new Vector3(0, angle, 0));
     }
 
     public void SetStats(TowerStats towerStats)

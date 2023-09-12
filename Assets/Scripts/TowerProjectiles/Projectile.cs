@@ -11,10 +11,11 @@ public class Projectile : MonoBehaviour
 
     [SerializeField] private GameObject _target;
     private ProjectileType _projectileType;
-    private float _damageToCause;
     public ProjectileStats ProjectileStats;
+    private float _damageToCause;
     private bool _isRotationSet;
     private bool _isAtMaxPierce; // To prevent the projectile hitting multiple targets if they are on top of eachother
+    [SerializeField] private bool _targetHit;
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +47,7 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") && !_isAtMaxPierce)
         {
+            _targetHit = true;
             HandlePierce();
             if(ProjectileStats.Pierce <= 0)
             {
@@ -54,7 +56,9 @@ public class Projectile : MonoBehaviour
             }
 
             if (_projectileType == ProjectileType.LinearBounce)
-                GetNextTarget();
+            {
+                GetNextTarget(collision.gameObject);
+            }
 
             collision.gameObject.GetComponent<Enemy>().TakeDamage(_damageToCause);
         }
@@ -131,13 +135,15 @@ public class Projectile : MonoBehaviour
 
     private void LinearBounceProjectile()
     {
-        LinearProjectile();
-        _isRotationSet = false;
+        if (!_targetHit)
+            LinearProjectile();
+        else
+            HomingProjectile();
     }
 
-    private void GetNextTarget()
+    private void GetNextTarget(GameObject currentTargetHit)
     {
-        int targetIndex = _spawnManagerScript.Enemies.IndexOf(_target);
+        int targetIndex = _spawnManagerScript.Enemies.IndexOf(currentTargetHit);
 
         // Set next target to behind the initial one
         int nextTargetIndex = targetIndex + 1;

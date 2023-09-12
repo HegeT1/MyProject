@@ -15,4 +15,5 @@ public struct TowerStats
     public float AttackSpeed;
     public float Damage;
     public int TargetableEnemies;
+    public float Cost;
 }
