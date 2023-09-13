@@ -12,14 +12,17 @@ public class Enemy : MonoBehaviour
 
     private int _currentPointIndex = 0;
 
-    [SerializeField] private EnemyStats _stats;
-    [field: SerializeField] public float CurrentHealthPoints { get; private set; }
+    [field: SerializeField] public EnemyStats Stats { get; private set; }
+    [SerializeField] private float _currentHealthPoints;
 
     [SerializeField] private Slider _healthBarSlider;
     private HealthBar _healthBarScritp;
     [SerializeField] private GameObject _damageTakenText;
     private Animator _animator;
     private bool _canMove;
+
+    private Vector2 _previousPosition;
+    [field: SerializeField] public float DistanceTravelled { get; private set; }
 
     void Start()
     {
@@ -35,9 +38,10 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CalculateDistance();
         if (_currentPointIndex < _gameManagerScript.Points.Count && _canMove)
         {
-            transform.position = Vector2.MoveTowards(transform.position, _gameManagerScript.Points[_currentPointIndex].transform.position, _stats.MoveSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, _gameManagerScript.Points[_currentPointIndex].transform.position, Stats.MoveSpeed * Time.deltaTime);
 
             if (transform.position == _gameManagerScript.Points[_currentPointIndex].transform.position)
             {
@@ -46,11 +50,18 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void CalculateDistance()
+    {
+        float distance = Vector2.Distance(transform.position, _previousPosition);
+        DistanceTravelled += distance;
+        _previousPosition = transform.position;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("End"))
         {
-            _gameManagerScript.UpdatePlayerHealth(-_stats.DamageToPlayer);
+            _gameManagerScript.UpdatePlayerHealth(-Stats.DamageToPlayer);
             _spawnManagerScript.RemoveEnemyFromList(gameObject);
             Destroy(gameObject);
         }
@@ -58,23 +69,24 @@ public class Enemy : MonoBehaviour
 
     public void SetStats(EnemyStats stats)
     {
-        _stats = stats;
-        CurrentHealthPoints = _stats.MaxHealthPoints;
+        Stats = stats;
+        _currentHealthPoints = Stats.MaxHealthPoints;
     }
 
     public void TakeDamage(float damage)
     {
-        CurrentHealthPoints -= damage;
+        _currentHealthPoints -= damage;
+        _healthBarScritp.UpdateHealthBar(_currentHealthPoints, Stats.MaxHealthPoints);
         ShowDamageTaken(damage);
-        _healthBarScritp.UpdateHealthBar(CurrentHealthPoints, _stats.MaxHealthPoints);
-        if (CurrentHealthPoints <= 0)
+        if (_currentHealthPoints <= 0)
         {
+            GetComponent<Collider2D>().enabled = false;
             _healthBarSlider.gameObject.SetActive(false);
             _canMove = false;
             _animator.SetTrigger("Dead");
-            CurrentHealthPoints = 0;
+            _currentHealthPoints = 0;
             GameObject.Find("Spawn Manager").GetComponent<SpawnManager>().RemoveEnemyFromList(gameObject);
-            GameObject.Find("Game Manager").GetComponent<GameManager>().UpdateMoney(_stats.MoneyWorth);
+            GameObject.Find("Game Manager").GetComponent<GameManager>().UpdateMoney(Stats.MoneyWorth);
             Destroy(gameObject, 0.5f);
         }
         else

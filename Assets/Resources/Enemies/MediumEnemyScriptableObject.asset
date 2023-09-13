@@ -17,4 +17,5 @@ MonoBehaviour:
     MaxHealthPoints: 5
     DamageToPlayer: 3
     MoneyWorth: 20
+    Strength: 1
   <Prefab>k__BackingField: {fileID: 6419143209141596853, guid: 1c4ddca24b92a3746b7e0b1c24cac58f, type: 3}

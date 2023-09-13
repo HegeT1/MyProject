@@ -18,7 +18,7 @@ MonoBehaviour:
   - EnemyCount: 10
     EnemySpacing: 0.5
     EnemyObject: {fileID: 11400000, guid: 43d4d7964675a7a40a132305ca61c6eb, type: 2}
-    DelayForNextPart: 3
+    DelayForNextPart: 1.2
   - EnemyCount: 2
     EnemySpacing: 1
     EnemyObject: {fileID: 11400000, guid: 71e18e4113c6b2249ae31835b25c1067, type: 2}

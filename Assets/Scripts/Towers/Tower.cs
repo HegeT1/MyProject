@@ -6,6 +6,7 @@ using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 public enum TowerState { Idle, Fireing }
+public enum TowerTargeting { First, Last, Strong }
 
 public class Tower : MonoBehaviour
 {
@@ -13,9 +14,10 @@ public class Tower : MonoBehaviour
     [SerializeField] private TowerScriptableObject _towerScriptableObject;
     [SerializeField] private TowerStats _towerStats;
     [SerializeField] private ProjectileStats _projectileStats;
+    [SerializeField] private TowerTargeting _towerTargeting = TowerTargeting.First;
 
-    [SerializeField] private TowerState _towerState = TowerState.Idle;
-    private List<GameObject> _enemiesInRange;
+    private TowerState _towerState = TowerState.Idle;
+    [SerializeField] private List<GameObject> _enemiesInRange;
     private bool _isMouseOnObject;
     private Animator _animator;
 
@@ -38,7 +40,8 @@ public class Tower : MonoBehaviour
         }
 
         _enemiesInRange = GetEnemiesInRange();
-        if(_enemiesInRange.Count > 0 && _towerState == TowerState.Idle)
+        SortEnemiesByTargeting();
+        if (_enemiesInRange.Count > 0 && _towerState == TowerState.Idle)
         {
             StartCoroutine(StartShootingProjectiles());
         }
@@ -85,6 +88,24 @@ public class Tower : MonoBehaviour
         return Vector2.Distance(enemy.transform.position, transform.position);
     }
 
+    private void SortEnemiesByTargeting() 
+    {
+        switch(_towerTargeting)
+        {
+            case TowerTargeting.First:
+                _enemiesInRange = _enemiesInRange.OrderByDescending(x => x.GetComponent<Enemy>().DistanceTravelled).ToList();
+                break;
+            case TowerTargeting.Last:
+                _enemiesInRange = _enemiesInRange.OrderBy(x => x.GetComponent<Enemy>().DistanceTravelled).ToList();
+                break;
+            case TowerTargeting.Strong:
+                _enemiesInRange = _enemiesInRange.OrderByDescending(x => x.GetComponent<Enemy>().Stats.Strength).ToList();
+                break;
+            default:
+                break;
+        }
+    }
+
     IEnumerator StartShootingProjectiles()
     {
         _towerState = TowerState.Fireing;
@@ -99,6 +120,7 @@ public class Tower : MonoBehaviour
 
             for(int i = 0; i < _towerStats.TargetableEnemies; i++)
             {
+                //SortEnemiesByDistance();
                 GameObject target = GetTargetedEnemy(i);
                 if (target != null)
                 {

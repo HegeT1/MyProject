@@ -15,4 +15,13 @@ public struct EnemyStats
     public float MaxHealthPoints;
     public int DamageToPlayer;
     public float MoneyWorth;
+    public EnemyStrength Strength;
+}
+
+[Serializable]
+public enum EnemyStrength
+{
+    Strength1,
+    Strength2,
+    Strength3,
 }

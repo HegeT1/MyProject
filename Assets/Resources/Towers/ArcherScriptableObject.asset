@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ArcherScriptableObject
   m_EditorClassIdentifier: 
   <BaseStats>k__BackingField:
-    Range: 3
+    Range: 4
     AttackSpeed: 2
     Damage: 2
     TargetableEnemies: 1
