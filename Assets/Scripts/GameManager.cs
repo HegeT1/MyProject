@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
         PlayerHealth += healthToAdd;
         if (PlayerHealth < 0)
             PlayerHealth = 0;
-        _healthText.SetText("Health: " +  PlayerHealth);
+        _healthText.SetText(PlayerHealth.ToString());
         if(PlayerHealth <= 0)
         { 
             IsGameActive = false;
@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     public void UpdateMoney(float moneyToAdd)
     {
         _money += moneyToAdd;
-        _moneyText.SetText("Money: " + _money);
+        _moneyText.SetText(_money.ToString());
     }
 
     public void StartGame()

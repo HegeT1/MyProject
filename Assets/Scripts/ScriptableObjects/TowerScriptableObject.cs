@@ -11,9 +11,17 @@ public class TowerScriptableObject : ScriptableObject
 [Serializable]
 public struct TowerStats
 {
+    [Min(0)]
     public float Range;
     public float AttackSpeed;
+    [Min(0)]
     public float Damage;
+    [Range(0f, 1f)]
+    public float CriticalChance;
+    [Min(1)]
+    public float CriticalDamage;
+    [Min(1)]
     public int TargetableEnemies;
+    [Min(0)]
     public float Cost;
 }

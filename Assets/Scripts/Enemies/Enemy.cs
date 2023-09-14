@@ -73,11 +73,11 @@ public class Enemy : MonoBehaviour
         _currentHealthPoints = Stats.MaxHealthPoints;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, DamageType damageType)
     {
         _currentHealthPoints -= damage;
         _healthBarScritp.UpdateHealthBar(_currentHealthPoints, Stats.MaxHealthPoints);
-        ShowDamageTaken(damage);
+        ShowDamageTaken(damage, damageType);
         if (_currentHealthPoints <= 0)
         {
             GetComponent<Collider2D>().enabled = false;
@@ -95,7 +95,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void ShowDamageTaken(float damage)
+    private void ShowDamageTaken(float damage, DamageType damageType)
     {
         // Make the displayed damage a random position
         float xOffset = Random.Range(0.2f, 0.5f);
@@ -103,6 +103,6 @@ public class Enemy : MonoBehaviour
         Vector3 offset = new(xOffset, yOffset, 0);
         
         GameObject damageText = Instantiate(_damageTakenText, transform.position + offset, _damageTakenText.transform.rotation);
-        damageText.GetComponent<DamageTaken>().SetText(damage, DamageType.Normal, 0.4f);
+        damageText.GetComponent<DamageTaken>().SetText(damage, damageType, 0.4f);
     }
 }

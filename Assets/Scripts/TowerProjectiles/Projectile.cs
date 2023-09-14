@@ -12,6 +12,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private GameObject _target;
     private ProjectileType _projectileType;
     public ProjectileStats ProjectileStats;
+    private DamageType _damageType;
     private float _damageToCause;
     private bool _isRotationSet;
     private bool _isAtMaxPierce; // To prevent the projectile hitting multiple targets if they are on top of eachother
@@ -60,7 +61,7 @@ public class Projectile : MonoBehaviour
                 GetNextTarget(collision.gameObject);
             }
 
-            collision.gameObject.GetComponent<Enemy>().TakeDamage(_damageToCause);
+            collision.gameObject.GetComponent<Enemy>().TakeDamage(_damageToCause, _damageType);
         }
     }
 
@@ -77,11 +78,12 @@ public class Projectile : MonoBehaviour
             _target = enemy;
     }
 
-    public void SetCharacteristics(ProjectileStats projectileStats, ProjectileType projectileType, float damageToCause)
+    public void SetCharacteristics(ProjectileStats projectileStats, ProjectileType projectileType, float damageToCause, DamageType damageType)
     {
         ProjectileStats = projectileStats;
         _projectileType = projectileType;
         _damageToCause = damageToCause;
+        _damageType = damageType;
     }
 
     IEnumerator StartProjectileUpTimer()

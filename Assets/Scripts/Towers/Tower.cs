@@ -124,6 +124,8 @@ public class Tower : MonoBehaviour
                 GameObject target = GetTargetedEnemy(i);
                 if (target != null)
                 {
+                    SetCritical(out float damage, out DamageType damageType);
+
                     RotateTowardsTarget(target);
 
                     _animator.SetFloat("SpeedMultiplier", _towerStats.AttackSpeed);
@@ -132,11 +134,25 @@ public class Tower : MonoBehaviour
                     Projectile projectileScript = projectile.GetComponent<Projectile>();
                     projectileScript.SetTarget(GetTargetedEnemy(i));
 
-                    projectileScript.SetCharacteristics(_projectileStats, _towerScriptableObject.Projectile.Type, _towerStats.Damage);
+                    projectileScript.SetCharacteristics(_projectileStats, _towerScriptableObject.Projectile.Type, damage, damageType);
                 }
             }
             // Higher AttackSpeed means faster attacking
             yield return new WaitForSeconds(1 / _towerStats.AttackSpeed);
+        }
+    }
+
+    private void SetCritical(out float damage, out DamageType damageType)
+    {
+        damage = _towerStats.Damage;
+        damageType = DamageType.Normal;
+
+        float randomValue = Random.value;
+
+        if (randomValue < _towerStats.CriticalChance)
+        {
+            damage *= _towerStats.CriticalDamage;
+            damageType = DamageType.Critical;
         }
     }
 
