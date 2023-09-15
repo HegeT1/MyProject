@@ -17,13 +17,11 @@ public class SpawnManager : MonoBehaviour
     {
         _gameManagerScript = GameObject.Find("Game Manager").GetComponent<GameManager>();
         _waves = Resources.LoadAll<WaveScriptableObject>("Waves").ToList();
-
-        _gameManagerScript.StartGame();
     }
 
     void Update()
     {
-        if (Enemies.Count == 0 && _gameManagerScript.IsGameActive && CheckCanSpawnNextWave())
+        if (Enemies.Count == 0 && _gameManagerScript.GameState == GameState.Active && CheckCanSpawnNextWave())
         {
             if (_gameManagerScript.WaveNumber <= _waves.Count)
             {
@@ -45,7 +43,8 @@ public class SpawnManager : MonoBehaviour
 
             for (int i = 0; i < wave.Parts.Count; i++)
             {
-                if (!_gameManagerScript.IsGameActive)
+                //if (!_gameManagerScript.IsGameActive)
+                if (_gameManagerScript.GameState == GameState.Loss)
                     yield break;
                 StartCoroutine(SpawnEnemyWavePart(wave.Parts[i], i));
                 yield return new WaitForSeconds(wave.Parts[i].DelayForNextPart);
@@ -58,7 +57,8 @@ public class SpawnManager : MonoBehaviour
     {
         for (int i = 0; i < wavePart.EnemyCount; i++)
         {
-            if (!_gameManagerScript.IsGameActive)
+            //if (!_gameManagerScript.IsGameActive)
+            if (_gameManagerScript.GameState == GameState.Loss)
                 yield break;
             SpawnEnemy(wavePart.EnemyObject.Prefab, _gameManagerScript.Points[0].transform.position, wavePart.EnemyObject.Prefab.transform.rotation, wavePart.EnemyObject.BaseStats);
             yield return new WaitForSeconds(wavePart.EnemySpacing);

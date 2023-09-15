@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481e8408204e8c84daf296f4a76c33b2, type: 3}
   m_Name: ArcherScriptableObject
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: Archer
   <BaseStats>k__BackingField:
-    Range: 4
-    AttackSpeed: 2
+    Range: 3
+    AttackSpeed: 1
     Damage: 2
-    CriticalChance: 0.5
+    CriticalChance: 0.1
     CriticalDamage: 2
-    TargetableEnemies: 2
+    TargetableEnemies: 1
     Cost: 100
+  <Sprite>k__BackingField: {fileID: -1599151921, guid: 43ded50d6b2d34943bd96b2766a87f60, type: 3}
+  <Prefab>k__BackingField: {fileID: 2726254542553389794, guid: 40956c1e9941c984b8c698f10d7b27b7, type: 3}
   <Projectile>k__BackingField: {fileID: 11400000, guid: 9066f7f2392d4864e819c41f6d1c0c81, type: 2}

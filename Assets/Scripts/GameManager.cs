@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+public enum GameState { None, Active, Paused, Victory, Loss }
+
 public class GameManager : MonoBehaviour
 {
     [field: SerializeField] public List<GameObject> Points { get; set; }
@@ -13,8 +15,11 @@ public class GameManager : MonoBehaviour
 
     [field: SerializeField] public int WaveNumber { get; private set; }
     [field: SerializeField] public int PlayerHealth { get; private set; } = 100;
-    [field: SerializeField] public bool IsGameActive { get; private set; } = false;
-    [field: SerializeField] public bool IsGamePaused { get; private set; } = false;
+
+    [field: SerializeField] public GameState GameState { get; private set; } = GameState.None;
+
+    //[field: SerializeField] public bool IsGameActive { get; private set; } = false;
+    //[field: SerializeField] public bool IsGamePaused { get; private set; } = false;
 
     [SerializeField] private float _money;
 
@@ -38,8 +43,9 @@ public class GameManager : MonoBehaviour
             PlayerHealth = 0;
         _healthText.SetText(PlayerHealth.ToString());
         if(PlayerHealth <= 0)
-        { 
-            IsGameActive = false;
+        {
+            //IsGameActive = false;
+            GameState = GameState.Loss;
         }
     }
 
@@ -51,6 +57,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        IsGameActive = true;
+        GameState = GameState.Active;
+        //IsGameActive = true;
     }
 }

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ab4574b4acf0742bfba2d8b209bfba, type: 3}
+  m_Name: Wave5ScriptableObject
+  m_EditorClassIdentifier: 
+  <Number>k__BackingField: 5
+  <Type>k__BackingField: 0
+  <Parts>k__BackingField:
+  - EnemyCount: 10
+    EnemySpacing: 0.5
+    EnemyObject: {fileID: 11400000, guid: 43d4d7964675a7a40a132305ca61c6eb, type: 2}
+    DelayForNextPart: 5
+  - EnemyCount: 2
+    EnemySpacing: 1
+    EnemyObject: {fileID: 11400000, guid: 21be09152c2a6d64f99273470d140071, type: 2}
+    DelayForNextPart: 0

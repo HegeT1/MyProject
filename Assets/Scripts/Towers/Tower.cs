@@ -17,8 +17,8 @@ public class Tower : MonoBehaviour
     [SerializeField] private TowerTargeting _towerTargeting = TowerTargeting.First;
 
     private TowerState _towerState = TowerState.Idle;
-    [SerializeField] private List<GameObject> _enemiesInRange;
-    private bool _isMouseOnObject;
+    [field: SerializeField] public List<GameObject> EnemiesInRange { get; set; }
+    [SerializeField] private bool _isMouseOnObject;
     private Animator _animator;
 
     // Start is called before the first frame update
@@ -34,14 +34,14 @@ public class Tower : MonoBehaviour
     {
         _towerRange.transform.localScale = new(2 * _towerStats.Range, 2 * _towerStats.Range, 0);
 
-        if(Input.GetMouseButtonDown(0) && !_isMouseOnObject)
+        if (Input.GetMouseButtonDown(0) && !_isMouseOnObject)
         {
-            gameObject.transform.GetChild(0).gameObject.SetActive(false);
+            _towerRange.SetActive(false);
         }
 
-        _enemiesInRange = GetEnemiesInRange();
+        EnemiesInRange = GetEnemiesInRange();
         SortEnemiesByTargeting();
-        if (_enemiesInRange.Count > 0 && _towerState == TowerState.Idle)
+        if (EnemiesInRange.Count > 0 && _towerState == TowerState.Idle)
         {
             StartCoroutine(StartShootingProjectiles());
         }
@@ -93,13 +93,13 @@ public class Tower : MonoBehaviour
         switch(_towerTargeting)
         {
             case TowerTargeting.First:
-                _enemiesInRange = _enemiesInRange.OrderByDescending(x => x.GetComponent<Enemy>().DistanceTravelled).ToList();
+                EnemiesInRange = EnemiesInRange.OrderByDescending(x => x.GetComponent<Enemy>().DistanceTravelled).ToList();
                 break;
             case TowerTargeting.Last:
-                _enemiesInRange = _enemiesInRange.OrderBy(x => x.GetComponent<Enemy>().DistanceTravelled).ToList();
+                EnemiesInRange = EnemiesInRange.OrderBy(x => x.GetComponent<Enemy>().DistanceTravelled).ToList();
                 break;
             case TowerTargeting.Strong:
-                _enemiesInRange = _enemiesInRange.OrderByDescending(x => x.GetComponent<Enemy>().Stats.Strength).ToList();
+                EnemiesInRange = EnemiesInRange.OrderByDescending(x => x.GetComponent<Enemy>().Stats.Strength).ToList();
                 break;
             default:
                 break;
@@ -112,7 +112,7 @@ public class Tower : MonoBehaviour
 
         while(_towerState == TowerState.Fireing)
         {
-            if (_enemiesInRange.Count <= 0)
+            if (EnemiesInRange.Count <= 0)
             {
                 _towerState = TowerState.Idle;
                 yield break;
@@ -158,8 +158,8 @@ public class Tower : MonoBehaviour
 
     private GameObject GetTargetedEnemy(int enemyPosition)
     {
-        if(enemyPosition < _enemiesInRange.Count)
-            return _enemiesInRange[enemyPosition];
+        if(enemyPosition < EnemiesInRange.Count)
+            return EnemiesInRange[enemyPosition];
         else
             return null;
     }
