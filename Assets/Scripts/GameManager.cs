@@ -18,9 +18,6 @@ public class GameManager : MonoBehaviour
 
     [field: SerializeField] public GameState GameState { get; private set; } = GameState.None;
 
-    //[field: SerializeField] public bool IsGameActive { get; private set; } = false;
-    //[field: SerializeField] public bool IsGamePaused { get; private set; } = false;
-
     [SerializeField] private float _money;
 
     private void Start()
@@ -44,7 +41,6 @@ public class GameManager : MonoBehaviour
         _healthText.SetText(PlayerHealth.ToString());
         if(PlayerHealth <= 0)
         {
-            //IsGameActive = false;
             GameState = GameState.Loss;
         }
     }
@@ -58,6 +54,10 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         GameState = GameState.Active;
-        //IsGameActive = true;
+    }
+
+    public void SetGameSpeed(float speed)
+    {
+        Time.timeScale = speed;
     }
 }

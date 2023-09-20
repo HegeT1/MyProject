@@ -73,7 +73,7 @@ public class Enemy : MonoBehaviour
         _currentHealthPoints = Stats.MaxHealthPoints;
     }
 
-    public void TakeDamage(float damage, DamageType damageType)
+    public virtual void TakeDamage(float damage, DamageType damageType)
     {
         _currentHealthPoints -= damage;
         _healthBarScritp.UpdateHealthBar(_currentHealthPoints, Stats.MaxHealthPoints);

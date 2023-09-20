@@ -25,6 +25,10 @@ public class SpawnManager : MonoBehaviour
         {
             if (_gameManagerScript.WaveNumber <= _waves.Count)
             {
+                // Money awarded for defeating enemy wave
+                if(_gameManagerScript.WaveNumber > 0)
+                    _gameManagerScript.UpdateMoney(_waves[_gameManagerScript.WaveNumber - 1].MoneyAwarded);
+
                 _gameManagerScript.UpdateWave(1);
                 StartCoroutine(SpawnEnemyWave(_gameManagerScript.WaveNumber));
             }

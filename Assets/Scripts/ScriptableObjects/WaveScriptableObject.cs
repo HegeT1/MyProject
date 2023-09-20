@@ -8,6 +8,7 @@ public class WaveScriptableObject : ScriptableObject
     [field: SerializeField] public int Number { get; private set; }
     [field: SerializeField] public WaveType Type { get; private set; }
     [field: SerializeField] public List<WavePart> Parts { get; private set; }
+    [field: SerializeField] public float MoneyAwarded { get; private set; }
 }
 
 [Serializable]

@@ -1,25 +1,18 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIGameHandler : MonoBehaviour
 {
-    private GameManager _gameManagerScritp;
+    private GameManager _gameManagerScript;
 
-    // Start is called before the first frame update
     void Start()
     {
-        _gameManagerScritp = GameObject.Find("Game Manager").GetComponent<GameManager>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _gameManagerScript = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
     public void StartGame()
     {
-        _gameManagerScritp.StartGame();
+        _gameManagerScript.StartGame();
     }
 }

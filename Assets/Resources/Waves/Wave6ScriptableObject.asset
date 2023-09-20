@@ -27,3 +27,4 @@ MonoBehaviour:
     EnemySpacing: 0.4
     EnemyObject: {fileID: 11400000, guid: 43d4d7964675a7a40a132305ca61c6eb, type: 2}
     DelayForNextPart: 0
+  <MoneyAwarded>k__BackingField: 100
