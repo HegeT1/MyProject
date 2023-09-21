@@ -18,13 +18,13 @@ public class GameManager : MonoBehaviour
 
     [field: SerializeField] public GameState GameState { get; private set; } = GameState.None;
 
-    [SerializeField] private float _money;
+    [field: SerializeField] public float Money { get; private set; } = 300;
 
     private void Start()
     {
         UpdateWave(0);
         UpdatePlayerHealth(0);
-        UpdateMoney(100);
+        UpdateMoney(0);
     }
 
     public void UpdateWave(int waveToAdd)
@@ -47,8 +47,8 @@ public class GameManager : MonoBehaviour
 
     public void UpdateMoney(float moneyToAdd)
     {
-        _money += moneyToAdd;
-        _moneyText.SetText(_money.ToString());
+        Money += moneyToAdd;
+        _moneyText.SetText(Money.ToString());
     }
 
     public void StartGame()

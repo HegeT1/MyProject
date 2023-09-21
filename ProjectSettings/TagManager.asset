@@ -10,6 +10,8 @@ TagManager:
   - SpawnManager
   - RangeRadius
   - Enemy
+  - Road
+  - MainPanel
   layers:
   - Default
   - TransparentFX

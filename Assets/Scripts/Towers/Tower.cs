@@ -5,25 +5,37 @@ using System.Linq;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
+public enum TowerPlacement { NotPlaced, Placed };
 public enum TowerState { Idle, Fireing }
 public enum TowerTargeting { First, Last, Strong }
 
 public class Tower : MonoBehaviour
 {
+    private GameManager _gameManagerScript;
+
     [SerializeField] private GameObject _towerRange;
     [SerializeField] private TowerScriptableObject _towerScriptableObject;
     [SerializeField] private TowerStats _towerStats;
     [SerializeField] private ProjectileStats _projectileStats;
     [SerializeField] private TowerTargeting _towerTargeting = TowerTargeting.First;
 
-    private TowerState _towerState = TowerState.Idle;
+    public TowerState _towerState = TowerState.Idle;
+    public TowerPlacement _towerPlacement = TowerPlacement.NotPlaced;
+
     [field: SerializeField] public List<GameObject> EnemiesInRange { get; set; }
     [SerializeField] private bool _isMouseOnObject;
+    [SerializeField] private bool _validPlacement;
+    private bool _placable;
     private Animator _animator;
 
     // Start is called before the first frame update
     void Start()
     {
+        _gameManagerScript = GameObject.Find("Game Manager").GetComponent<GameManager>();
+
+        SetTransperancy(0.7f);
+        _towerRange.SetActive(true);
+
         SetStats(_towerScriptableObject.BaseStats);
         SetProjectileStats(_towerScriptableObject.Projectile.BaseStats);
         _animator = GetComponentInChildren<Animator>();
@@ -32,30 +44,97 @@ public class Tower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_towerPlacement == TowerPlacement.NotPlaced)
+        {
+            if(Input.GetMouseButton(1))
+                Destroy(gameObject);
+
+            if (_validPlacement)
+            {
+                SetPlacementColor(Color.black);
+            }
+            else
+            {
+                SetPlacementColor(Color.red);
+            }
+
+            FollowMouse();
+        }
+
         _towerRange.transform.localScale = new(2 * _towerStats.Range, 2 * _towerStats.Range, 0);
 
-        if (Input.GetMouseButtonDown(0) && !_isMouseOnObject)
+        if(_towerPlacement == TowerPlacement.Placed)
         {
-            _towerRange.SetActive(false);
-        }
+            if (Input.GetMouseButtonDown(0) && !_isMouseOnObject)
+            {
+                _towerRange.SetActive(false);
+            }
 
-        EnemiesInRange = GetEnemiesInRange();
-        SortEnemiesByTargeting();
-        if (EnemiesInRange.Count > 0 && _towerState == TowerState.Idle)
-        {
-            StartCoroutine(StartShootingProjectiles());
+            EnemiesInRange = GetEnemiesInRange();
+            SortEnemiesByTargeting();
+            if (EnemiesInRange.Count > 0 && _towerState == TowerState.Idle)
+            {
+                StartCoroutine(StartShootingProjectiles());
+            }
         }
+    }
+
+    private void FollowMouse()
+    {
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = Camera.main.transform.position.z + Camera.main.nearClipPlane;
+        transform.position = mousePosition;
+    }
+
+    private void SetTransperancy(float multiplier)
+    {
+        Color towerRangeColor = _towerRange.GetComponent<SpriteRenderer>().color;
+        towerRangeColor.a *= multiplier;
+        _towerRange.GetComponent<SpriteRenderer>().color = towerRangeColor;
+
+        Color spriteColor = transform.GetChild(0).GetComponent<SpriteRenderer>().color;
+        spriteColor.a *= multiplier;
+        transform.GetChild(0).GetComponent<SpriteRenderer>().color = spriteColor;
+    }
+
+    private void SetPlacementColor(Color color)
+    {
+        color.a = 0.4f;
+        _towerRange.GetComponent<SpriteRenderer>().color = color;
+    }
+
+    public bool PlaceTower()
+    {
+        if(_validPlacement)
+        {
+            _towerPlacement = TowerPlacement.Placed;
+            _towerRange.SetActive(false);
+            SetTransperancy(1.7f);
+
+            _gameManagerScript.UpdateMoney(-_towerStats.Cost);
+
+            return true;
+        }
+        return false;
     }
 
     private void OnMouseDown()
     {
-        if(_towerRange.activeSelf)
+        if (_towerPlacement == TowerPlacement.Placed)
         {
-            _towerRange.SetActive(false);
+            if (_towerRange.activeSelf)
+            {
+                _towerRange.SetActive(false);
+            }
+            else
+            {
+                _towerRange.SetActive(true);
+            }
         }
-        else
+
+        if(_towerPlacement == TowerPlacement.NotPlaced)
         {
-            _towerRange.SetActive(true);
+            PlaceTower();
         }
     }
 
@@ -191,5 +270,21 @@ public class Tower : MonoBehaviour
     public void SetProjectileStats(ProjectileStats projectileStats)
     {
         _projectileStats = projectileStats;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Road") || collision.gameObject.CompareTag("MainPanel"))
+        {
+            _validPlacement = false;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Road") || collision.gameObject.CompareTag("MainPanel"))
+        {
+            _validPlacement = true;
+        }
     }
 }

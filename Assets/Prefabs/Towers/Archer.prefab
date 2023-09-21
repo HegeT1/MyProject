@@ -12,9 +12,29 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: cc6be34095896ef4d8a754735e6770f4, type: 2}
+    - target: {fileID: 4849538054919234356, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4849538054919234356, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
+      propertyPath: m_Color.b
+      value: 0.18609823
+      objectReference: {fileID: 0}
+    - target: {fileID: 4849538054919234356, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
+      propertyPath: m_Color.g
+      value: 0.18609823
+      objectReference: {fileID: 0}
+    - target: {fileID: 4849538054919234356, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
+      propertyPath: m_Color.r
+      value: 0.7735849
+      objectReference: {fileID: 0}
     - target: {fileID: 5660897997069048882, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6558686775638217918, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
+      propertyPath: m_Color.a
+      value: 0.50980395
       objectReference: {fileID: 0}
     - target: {fileID: 7616697860113554893, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_Size.x
@@ -28,6 +48,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -1599151921, guid: 43ded50d6b2d34943bd96b2766a87f60, type: 3}
+    - target: {fileID: 7616697860113554893, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7616697860113554893, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
@@ -135,12 +159,19 @@ MonoBehaviour:
     Range: 0
     AttackSpeed: 0
     Damage: 0
+    CriticalChance: 0
+    CriticalDamage: 0
     TargetableEnemies: 0
+    Cost: 0
   _projectileStats:
     Speed: 0
     UpTime: 0
     Pierce: 0
+  _towerTargeting: 0
   _towerState: 0
+  _towerPlacement: 0
+  <EnemiesInRange>k__BackingField: []
+  _isMouseOnObject: 0
 --- !u!1 &3548865715654868889 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8795512760161023830, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
