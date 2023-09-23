@@ -25,7 +25,6 @@ public class Tower : MonoBehaviour
     [field: SerializeField] public List<GameObject> EnemiesInRange { get; set; }
     [SerializeField] private bool _isMouseOnObject;
     [SerializeField] private bool _validPlacement;
-    private bool _placable;
     private Animator _animator;
 
     // Start is called before the first frame update
@@ -82,7 +81,8 @@ public class Tower : MonoBehaviour
     private void FollowMouse()
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = Camera.main.transform.position.z + Camera.main.nearClipPlane;
+        //mousePosition.z = Camera.main.transform.position.z + Camera.main.nearClipPlane;
+        mousePosition.z = -9;
         transform.position = mousePosition;
     }
 
