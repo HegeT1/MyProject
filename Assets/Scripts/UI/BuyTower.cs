@@ -3,58 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class BuyTower : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
+public class BuyTower : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    private GameManager _gameManagerScript;
     [SerializeField] private TowerScriptableObject _towerScriptableObject;
-    [SerializeField] private GameObject _tower;
-    private bool _isDrag;
+    [SerializeField] private GameObject _statsWindow;
+    private ShopManager _shopManagerScritp;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        _gameManagerScript = GameObject.Find("Game Manager").GetComponent<GameManager>();
-    }
-
-    private void InstantiateTower(PointerEventData eventData)
-    {
-        if (eventData.button == PointerEventData.InputButton.Left && _gameManagerScript.Money >= _towerScriptableObject.BaseStats.Cost && _tower == null)
-        {
-            Debug.Log("inst");
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePosition.z = Camera.main.transform.position.z + Camera.main.nearClipPlane;
-
-            _tower = Instantiate(_towerScriptableObject.Prefab, mousePosition, _towerScriptableObject.Prefab.transform.rotation);
-        }
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        //Debug.Log("click");
-        //_isDrag = false;
-        //InstantiateTower(eventData);
-        //_tower = null;
+        _shopManagerScritp = gameObject.transform.parent.transform.parent.GetComponent<ShopManager>();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        //Debug.Log("down");
-        _isDrag = true;
-        InstantiateTower(eventData);
+        if(eventData.button == PointerEventData.InputButton.Left)
+            _shopManagerScritp.InstantiateTower(_towerScriptableObject);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        //Debug.Log("up");
-        if (_isDrag && _tower.GetComponent<Tower>().PlaceTower())
-        {
-            //Debug.Log("placed");
-            _tower = null;
-        }
+        if (_shopManagerScritp.Tower != null && _shopManagerScritp.Tower.GetComponent<Tower>().PlaceTower())
+            _shopManagerScritp.Tower = null;
     }
 
-    public void SelectTower(TowerScriptableObject towerScriptableObject)
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log(towerScriptableObject.Name);
+        TowerStatsWindow towerStatsWindowScript = _statsWindow.GetComponent<TowerStatsWindow>();
+
+        towerStatsWindowScript.SetStats(_towerScriptableObject.BaseStats);
+        towerStatsWindowScript.SetPosition(gameObject.transform.localPosition);
+        _statsWindow.SetActive(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        _statsWindow.SetActive(false);
     }
 }

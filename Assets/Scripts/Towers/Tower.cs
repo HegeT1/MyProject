@@ -134,7 +134,8 @@ public class Tower : MonoBehaviour
 
         if(_towerPlacement == TowerPlacement.NotPlaced)
         {
-            PlaceTower();
+            if(PlaceTower())
+                GameObject.Find("Shop").GetComponent<ShopManager>().Tower = null;
         }
     }
 
