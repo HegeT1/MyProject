@@ -133,7 +133,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7969806589635531309, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
-      insertIndex: -1
+      insertIndex: 1
       addedObject: {fileID: 4108237719175903182}
   m_SourcePrefab: {fileID: 100100000, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
 --- !u!1 &2726254542553389794 stripped
@@ -155,6 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _towerRange: {fileID: 3548865715654868889}
   _towerScriptableObject: {fileID: 11400000, guid: c533f448ae171ba458b65032c441182a, type: 2}
+  _towerWindow: {fileID: 0}
   _towerStats:
     Range: 0
     AttackSpeed: 0
@@ -172,6 +173,7 @@ MonoBehaviour:
   _towerPlacement: 0
   <EnemiesInRange>k__BackingField: []
   _isMouseOnObject: 0
+  _validPlacement: 0
 --- !u!1 &3548865715654868889 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8795512760161023830, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}

@@ -15,6 +15,8 @@ public class Tower : MonoBehaviour
 
     [SerializeField] private GameObject _towerRange;
     [SerializeField] private TowerScriptableObject _towerScriptableObject;
+    [SerializeField] private GameObject _towerWindow;
+
     [SerializeField] private TowerStats _towerStats;
     [SerializeField] private ProjectileStats _projectileStats;
     [SerializeField] private TowerTargeting _towerTargeting = TowerTargeting.First;
@@ -31,6 +33,7 @@ public class Tower : MonoBehaviour
     void Start()
     {
         _gameManagerScript = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        _towerWindow = GameObject.Find("Canvas").transform.Find("Main UI").Find("Panel").Find("Selected Tower").gameObject;
 
         SetTransperancy(0.7f);
         _towerRange.SetActive(true);
@@ -125,10 +128,13 @@ public class Tower : MonoBehaviour
             if (_towerRange.activeSelf)
             {
                 _towerRange.SetActive(false);
+                _towerWindow.SetActive(false);
             }
             else
             {
+                _towerWindow.transform.GetChild(0).GetComponent<TowerStatsWindow>().SetStats(_towerStats);
                 _towerRange.SetActive(true);
+                _towerWindow.SetActive(true);
             }
         }
 

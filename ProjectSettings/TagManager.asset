@@ -12,6 +12,7 @@ TagManager:
   - Enemy
   - Road
   - MainPanel
+  - SelectedTower
   layers:
   - Default
   - TransparentFX
