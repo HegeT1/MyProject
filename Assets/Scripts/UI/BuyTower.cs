@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,11 +8,13 @@ public class BuyTower : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 {
     [SerializeField] private TowerScriptableObject _towerScriptableObject;
     [SerializeField] private GameObject _statsWindow;
+    [SerializeField] private TextMeshProUGUI _costText;
     private ShopManager _shopManagerScritp;
 
     private void Start()
     {
         _shopManagerScritp = gameObject.transform.parent.transform.parent.GetComponent<ShopManager>();
+        _costText.SetText(_towerScriptableObject.Cost.ToString());
     }
 
     public void OnPointerDown(PointerEventData eventData)

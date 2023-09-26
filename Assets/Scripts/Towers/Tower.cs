@@ -13,7 +13,7 @@ public class Tower : MonoBehaviour
 {
     private GameManager _gameManagerScript;
 
-    [SerializeField] private GameObject _towerRange;
+    [SerializeField] private GameObject TowerRange;
     [SerializeField] private TowerScriptableObject _towerScriptableObject;
     [SerializeField] private GameObject _towerWindow;
 
@@ -36,7 +36,7 @@ public class Tower : MonoBehaviour
         _towerWindow = GameObject.Find("Canvas").transform.Find("Main UI").Find("Panel").Find("Selected Tower").gameObject;
 
         SetTransperancy(0.7f);
-        _towerRange.SetActive(true);
+        TowerRange.SetActive(true);
 
         SetStats(_towerScriptableObject.BaseStats);
         SetProjectileStats(_towerScriptableObject.Projectile.BaseStats);
@@ -48,7 +48,7 @@ public class Tower : MonoBehaviour
     {
         if (_towerPlacement == TowerPlacement.NotPlaced)
         {
-            if(Input.GetMouseButton(1))
+            if(Input.GetMouseButton(1) || Input.GetKeyDown(KeyCode.Escape))
                 Destroy(gameObject);
 
             if (_validPlacement)
@@ -63,14 +63,16 @@ public class Tower : MonoBehaviour
             FollowMouse();
         }
 
-        _towerRange.transform.localScale = new(2 * _towerStats.Range, 2 * _towerStats.Range, 0);
+        TowerRange.transform.localScale = new(2 * _towerStats.Range, 2 * _towerStats.Range, 0);
 
         if(_towerPlacement == TowerPlacement.Placed)
         {
             if (Input.GetMouseButtonDown(0) && !_isMouseOnObject)
             {
-                _towerRange.SetActive(false);
+                TowerRange.SetActive(false);
             }
+
+            _towerWindow.SetActive(AnySelectedTowers());
 
             EnemiesInRange = GetEnemiesInRange();
             SortEnemiesByTargeting();
@@ -79,6 +81,13 @@ public class Tower : MonoBehaviour
                 StartCoroutine(StartShootingProjectiles());
             }
         }
+    }
+
+    private bool AnySelectedTowers()
+    {
+        if (FindObjectsOfType<Tower>().Where(x => x._towerPlacement == TowerPlacement.Placed).Any(x => x.TowerRange.activeSelf))
+             return true;
+        return false;
     }
 
     private void FollowMouse()
@@ -91,9 +100,9 @@ public class Tower : MonoBehaviour
 
     private void SetTransperancy(float multiplier)
     {
-        Color towerRangeColor = _towerRange.GetComponent<SpriteRenderer>().color;
+        Color towerRangeColor = TowerRange.GetComponent<SpriteRenderer>().color;
         towerRangeColor.a *= multiplier;
-        _towerRange.GetComponent<SpriteRenderer>().color = towerRangeColor;
+        TowerRange.GetComponent<SpriteRenderer>().color = towerRangeColor;
 
         Color spriteColor = transform.GetChild(0).GetComponent<SpriteRenderer>().color;
         spriteColor.a *= multiplier;
@@ -103,7 +112,7 @@ public class Tower : MonoBehaviour
     private void SetPlacementColor(Color color)
     {
         color.a = 0.4f;
-        _towerRange.GetComponent<SpriteRenderer>().color = color;
+        TowerRange.GetComponent<SpriteRenderer>().color = color;
     }
 
     public bool PlaceTower()
@@ -111,10 +120,10 @@ public class Tower : MonoBehaviour
         if(_validPlacement)
         {
             _towerPlacement = TowerPlacement.Placed;
-            _towerRange.SetActive(false);
+            TowerRange.SetActive(false);
             SetTransperancy(1.7f);
 
-            _gameManagerScript.UpdateMoney(-_towerStats.Cost);
+            _gameManagerScript.UpdateMoney(-_towerScriptableObject.Cost);
 
             return true;
         }
@@ -125,15 +134,15 @@ public class Tower : MonoBehaviour
     {
         if (_towerPlacement == TowerPlacement.Placed)
         {
-            if (_towerRange.activeSelf)
+            if (TowerRange.activeSelf)
             {
-                _towerRange.SetActive(false);
+                TowerRange.SetActive(false);
                 _towerWindow.SetActive(false);
             }
             else
             {
                 _towerWindow.transform.GetChild(0).GetComponent<TowerStatsWindow>().SetStats(_towerStats);
-                _towerRange.SetActive(true);
+                TowerRange.SetActive(true);
                 _towerWindow.SetActive(true);
             }
         }

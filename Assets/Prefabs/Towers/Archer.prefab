@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f5229f1ee63f5946b2b13be741828e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _towerRange: {fileID: 3548865715654868889}
+  TowerRange: {fileID: 3548865715654868889}
   _towerScriptableObject: {fileID: 11400000, guid: c533f448ae171ba458b65032c441182a, type: 2}
   _towerWindow: {fileID: 0}
   _towerStats:

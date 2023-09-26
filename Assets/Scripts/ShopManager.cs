@@ -7,6 +7,7 @@ public class ShopManager : MonoBehaviour
 {
     private GameManager _gameManagerScript;
     public GameObject Tower;
+    [SerializeField] private GameObject _towerParentObject;
 
     // Start is called before the first frame update
     void Start()
@@ -16,12 +17,12 @@ public class ShopManager : MonoBehaviour
 
     public void InstantiateTower(TowerScriptableObject towerScriptableObject)
     {
-        if (_gameManagerScript.Money >= towerScriptableObject.BaseStats.Cost && Tower == null)
+        if (_gameManagerScript.Money >= towerScriptableObject.Cost && Tower == null)
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = Camera.main.transform.position.z + Camera.main.nearClipPlane;
 
-            Tower = Instantiate(towerScriptableObject.Prefab, mousePosition, towerScriptableObject.Prefab.transform.rotation);
+            Tower = Instantiate(towerScriptableObject.Prefab, mousePosition, towerScriptableObject.Prefab.transform.rotation, _towerParentObject.transform);
         }
     }
 }

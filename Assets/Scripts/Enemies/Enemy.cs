@@ -35,7 +35,6 @@ public class Enemy : MonoBehaviour
         transform.position = _gameManagerScript.Points[_currentPointIndex].transform.position;
     }
 
-    // Update is called once per frame
     void Update()
     {
         CalculateDistance();
@@ -87,11 +86,6 @@ public class Enemy : MonoBehaviour
             _currentHealthPoints = 0;
             GameObject.Find("Spawn Manager").GetComponent<SpawnManager>().RemoveEnemyFromList(gameObject);
             GameObject.Find("Game Manager").GetComponent<GameManager>().UpdateMoney(Stats.MoneyWorth);
-
-            //foreach(Tower towerScript in FindObjectsOfType<Tower>())
-            //{
-            //    towerScript.EnemiesInRange.Remove(gameObject);
-            //}
 
             Destroy(gameObject, 0.5f);
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public enum GameState { None, Active, Paused, Victory, Loss }
+public enum GameState { None, Active, Paused, Victory, Defeat }
 
 public class GameManager : MonoBehaviour
 {
@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public int WaveNumber { get; private set; }
     [field: SerializeField] public int PlayerHealth { get; private set; } = 100;
 
-    [field: SerializeField] public GameState GameState { get; private set; } = GameState.None;
+    public GameState GameState = GameState.None;
 
     [field: SerializeField] public float Money { get; private set; } = 300;
 
@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
         _healthText.SetText(PlayerHealth.ToString());
         if(PlayerHealth <= 0)
         {
-            GameState = GameState.Loss;
+            Defeat();
         }
     }
 
@@ -59,5 +59,18 @@ public class GameManager : MonoBehaviour
     public void SetGameSpeed(float speed)
     {
         Time.timeScale = speed;
+    }
+
+    public void Victory()
+    {
+        GameState = GameState.Victory;
+        Debug.Log("Victory!");
+    }
+
+    public void Defeat()
+    {
+        Time.timeScale = 0;
+        GameState = GameState.Defeat;
+        Debug.Log("Defeat!");
     }
 }
