@@ -24,3 +24,10 @@ MonoBehaviour:
   <Sprite>k__BackingField: {fileID: -1599151921, guid: 43ded50d6b2d34943bd96b2766a87f60, type: 3}
   <Prefab>k__BackingField: {fileID: 2726254542553389794, guid: 40956c1e9941c984b8c698f10d7b27b7, type: 3}
   <Projectile>k__BackingField: {fileID: 11400000, guid: 9066f7f2392d4864e819c41f6d1c0c81, type: 2}
+  <UpgradePaths>k__BackingField:
+  - Path:
+    - {fileID: 11400000, guid: be1639c1467576e4bbb30d0d57b23846, type: 2}
+    - {fileID: 11400000, guid: ef371adf1291696458aa5a2f30ee1d08, type: 2}
+    - {fileID: 11400000, guid: 8194ebce8e9be364faac34add0a29fbb, type: 2}
+  - Path:
+    - {fileID: 11400000, guid: e74b03753c2e8044fb8a7e7d2285d15e, type: 2}

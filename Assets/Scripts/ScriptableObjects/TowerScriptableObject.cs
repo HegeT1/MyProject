@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "TowerScriptableObject", menuName = "ScriptableObjects/Tower")]
@@ -11,6 +12,7 @@ public class TowerScriptableObject : ScriptableObject
     [field: SerializeField] public Sprite Sprite { get; private set; }
     [field: SerializeField] public GameObject Prefab { get; private set; }
     [field: SerializeField] public ProjectileScriptableObject Projectile { get; private set; }
+    [field: SerializeField] public List<UpgradePaths> UpgradePaths { get; private set; }
 }
 
 [Serializable]
@@ -28,6 +30,10 @@ public struct TowerStats
     public float CriticalDamage;
     [Min(1)]
     public int TargetableEnemies;
-    //[Min(0)]
-    //public float Cost;
+}
+
+[Serializable]
+public class UpgradePaths
+{
+    public List<UpgradeScriptableObject> Path;
 }

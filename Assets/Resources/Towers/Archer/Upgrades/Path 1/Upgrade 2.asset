@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 354712c844981b042974399ba2eb5f3d, type: 3}
-  m_Name: Upgrade1
+  m_Name: Upgrade 2
   m_EditorClassIdentifier: 
   <UpgradedStats>k__BackingField:
     Damage: 4
-    AttackSpeed: 1.5
+    AttackSpeed: 1
     Range: 3
     CriticalChance: 0.1
     CriticalDamage: 2
     TargetableEnemies: 1
+  <Cost>k__BackingField: 300

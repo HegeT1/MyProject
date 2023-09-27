@@ -16,8 +16,9 @@ public class Tower : MonoBehaviour
     [SerializeField] private GameObject TowerRange;
     [SerializeField] private TowerScriptableObject _towerScriptableObject;
     [SerializeField] private GameObject _towerWindow;
+    [SerializeField] private List<int> _upgradeIndexes;
 
-    [SerializeField] private TowerStats _towerStats;
+    [SerializeField] public TowerStats TowerStats;
     [SerializeField] private ProjectileStats _projectileStats;
     [SerializeField] private TowerTargeting _towerTargeting = TowerTargeting.First;
 
@@ -41,6 +42,11 @@ public class Tower : MonoBehaviour
         SetStats(_towerScriptableObject.BaseStats);
         SetProjectileStats(_towerScriptableObject.Projectile.BaseStats);
         _animator = GetComponentInChildren<Animator>();
+
+        foreach(UpgradePaths path in _towerScriptableObject.UpgradePaths)
+        {
+            _upgradeIndexes.Add(0);
+        }
     }
 
     // Update is called once per frame
@@ -63,13 +69,13 @@ public class Tower : MonoBehaviour
             FollowMouse();
         }
 
-        TowerRange.transform.localScale = new(2 * _towerStats.Range, 2 * _towerStats.Range, 0);
+        TowerRange.transform.localScale = new(2 * TowerStats.Range, 2 * TowerStats.Range, 0);
 
         if(_towerPlacement == TowerPlacement.Placed)
         {
             if (Input.GetMouseButtonDown(0) && !_isMouseOnObject)
             {
-                TowerRange.SetActive(false);
+                //TowerRange.SetActive(false);
             }
 
             _towerWindow.SetActive(AnySelectedTowers());
@@ -141,7 +147,9 @@ public class Tower : MonoBehaviour
             }
             else
             {
-                _towerWindow.transform.GetChild(0).GetComponent<TowerStatsWindow>().SetStats(_towerStats);
+                _towerWindow.transform.GetChild(0).GetComponent<TowerStatsWindow>().SetStats(TowerStats);
+                _towerWindow.transform.Find("Upgrades").GetComponent<UpgradeManager>().SetUpgradePaths(_towerScriptableObject.UpgradePaths, _upgradeIndexes);
+                _towerWindow.transform.Find("Upgrades").GetComponent<UpgradeManager>().Set(this);
                 TowerRange.SetActive(true);
                 _towerWindow.SetActive(true);
             }
@@ -169,7 +177,7 @@ public class Tower : MonoBehaviour
         List<GameObject> enemies = new();
         foreach(GameObject enemy in GameObject.Find("Spawn Manager").GetComponent<SpawnManager>().Enemies)
         {
-            if(GetDistanceBetweenTowerAndEnemy(enemy) <= _towerStats.Range)
+            if(GetDistanceBetweenTowerAndEnemy(enemy) <= TowerStats.Range)
             {
                 enemies.Add(enemy);
             }
@@ -213,7 +221,7 @@ public class Tower : MonoBehaviour
                 yield break;
             }
 
-            for(int i = 0; i < _towerStats.TargetableEnemies; i++)
+            for(int i = 0; i < TowerStats.TargetableEnemies; i++)
             {
                 //SortEnemiesByDistance();
                 GameObject target = GetTargetedEnemy(i);
@@ -223,7 +231,7 @@ public class Tower : MonoBehaviour
 
                     RotateTowardsTarget(target);
 
-                    _animator.SetFloat("SpeedMultiplier", _towerStats.AttackSpeed);
+                    _animator.SetFloat("SpeedMultiplier", TowerStats.AttackSpeed);
                     _animator.SetTrigger("Shoot");
                     GameObject projectile = Instantiate(_towerScriptableObject.Projectile.Prefab, gameObject.transform.position, _towerScriptableObject.Projectile.Prefab.transform.rotation);
                     Projectile projectileScript = projectile.GetComponent<Projectile>();
@@ -233,20 +241,20 @@ public class Tower : MonoBehaviour
                 }
             }
             // Higher AttackSpeed means faster attacking
-            yield return new WaitForSeconds(1 / _towerStats.AttackSpeed);
+            yield return new WaitForSeconds(1 / TowerStats.AttackSpeed);
         }
     }
 
     private void SetCritical(out float damage, out DamageType damageType)
     {
-        damage = _towerStats.Damage;
+        damage = TowerStats.Damage;
         damageType = DamageType.Normal;
 
         float randomValue = Random.value;
 
-        if (randomValue < _towerStats.CriticalChance)
+        if (randomValue < TowerStats.CriticalChance)
         {
-            damage *= _towerStats.CriticalDamage;
+            damage *= TowerStats.CriticalDamage;
             damageType = DamageType.Critical;
         }
     }
@@ -280,7 +288,7 @@ public class Tower : MonoBehaviour
 
     public void SetStats(TowerStats towerStats)
     {
-        _towerStats = towerStats;
+        TowerStats = towerStats;
     }
 
     public void SetProjectileStats(ProjectileStats projectileStats)
@@ -288,19 +296,19 @@ public class Tower : MonoBehaviour
         _projectileStats = projectileStats;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Road") || collision.gameObject.CompareTag("MainPanel"))
+        if (collision.gameObject.CompareTag("Road") || collision.gameObject.CompareTag("MainPanel") || collision.gameObject.CompareTag("Tower"))
         {
-            _validPlacement = false;
+            _validPlacement = true;
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Road") || collision.gameObject.CompareTag("MainPanel"))
+        if (collision.gameObject.CompareTag("Road") || collision.gameObject.CompareTag("MainPanel") || collision.gameObject.CompareTag("Tower"))
         {
-            _validPlacement = true;
+            _validPlacement = false;
         }
     }
 }
