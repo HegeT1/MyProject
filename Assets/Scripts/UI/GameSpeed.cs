@@ -29,12 +29,12 @@ public class GameSpeed : MonoBehaviour
 
     private List<GameObject> GetOtherButtons()
     {
-        List<GameObject> _allGameSpeedButtons = new();
+        List<GameObject> allGameSpeedButtons = new();
 
         for (int i = 0; i < gameObject.transform.parent.childCount; i++)
-            _allGameSpeedButtons.Add(gameObject.transform.parent.GetChild(i).gameObject);
+            allGameSpeedButtons.Add(gameObject.transform.parent.GetChild(i).gameObject);
 
-        return _allGameSpeedButtons;
+        return allGameSpeedButtons;
     }
 
     private void OnDisable()

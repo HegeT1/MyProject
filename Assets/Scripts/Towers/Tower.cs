@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TMPro.EditorUtilities;
+using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public enum TowerPlacement { NotPlaced, Placed };
 public enum TowerState { Idle, Fireing }
@@ -13,39 +14,84 @@ public class Tower : MonoBehaviour
 {
     private GameManager _gameManagerScript;
 
+    [field: SerializeField] public TowerBaseStats _test { get; private set; }
+    public List<Stat> Keys { get; private set; } = new();
+    public List<float> Values { get; private set; } = new();
+    private Dictionary<Stat, float> _towerStats = new();
+
+
     [SerializeField] private GameObject TowerRange;
-    [SerializeField] private TowerScriptableObject _towerScriptableObject;
-    [SerializeField] private GameObject _towerWindow;
-    [SerializeField] private List<int> _upgradeIndexes;
+    [field: SerializeField] public TowerScriptableObject TowerScriptableObject { get; private set; }
+    private GameObject _towerWindow;
+    public List<int> UgradeIndexes = new();
 
     [SerializeField] public TowerStats TowerStats;
     [SerializeField] private ProjectileStats _projectileStats;
-    [SerializeField] private TowerTargeting _towerTargeting = TowerTargeting.First;
+    [field: SerializeField] public TowerTargeting TowerTargeting { get; private set; } = TowerTargeting.First;
 
-    public TowerState _towerState = TowerState.Idle;
-    public TowerPlacement _towerPlacement = TowerPlacement.NotPlaced;
+    private TowerState _towerState = TowerState.Idle;
+    private TowerPlacement _towerPlacement = TowerPlacement.NotPlaced;
 
-    [field: SerializeField] public List<GameObject> EnemiesInRange { get; set; }
-    [SerializeField] private bool _isMouseOnObject;
-    [SerializeField] private bool _validPlacement;
+    public List<GameObject> EnemiesInRange { get; set; }
+    private bool _isMouseOnObject;
+    private bool _validPlacement;
     private Animator _animator;
+
+    public void RefreshStats()
+    {
+        _towerStats = new();
+        for(int i = 0; i < Mathf.Min(Keys.Count, Values.Count); i++)
+            _towerStats.Add(Keys[i], Values[i]);
+    }
+
+    private void Test()
+    {
+        Debug.Log(Values[Keys.IndexOf(Stat.Damage)]);
+        //foreach (KeyValuePair<Stat, UpgradeStat> upgrade in _towerScriptableObject.UpgradePaths[0].Path[0].Upgrades)
+        //{
+        //    //Debug.Log("Before: " + _towerStats[upgrade.Key]);
+        //    _towerStats[upgrade.Key] += upgrade.Value.Value;
+            
+        //    Debug.Log(Values[Keys.IndexOf(upgrade.Key)]);
+        //    Keys.Clear();
+        //    Values.Clear();
+        //    foreach(KeyValuePair<Stat, float> kv in _towerStats)
+        //    {
+        //        Keys.Add(kv.Key);
+        //        Values.Add(kv.Value);
+        //    }
+        //    Debug.Log(Values[Keys.IndexOf(upgrade.Key)]);
+        //}
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        //_test = TowerScriptableObject.TowerBaseStats;
+        //Keys.Clear();
+        //Values.Clear();
+        //for (int i = 0; i < Mathf.Min(_test.Keys.Count, _test.Values.Count); i++)
+        //{
+        //    Keys.Add(_test.Keys[i]);
+        //    Values.Add(_test.Values[i]);
+        //    _towerStats.Add(_test.Keys[i], _test.Values[i]);
+        //}
+        //InvokeRepeating(nameof(Test), 6, 10);
+
+
         _gameManagerScript = GameObject.Find("Game Manager").GetComponent<GameManager>();
         _towerWindow = GameObject.Find("Canvas").transform.Find("Main UI").Find("Panel").Find("Selected Tower").gameObject;
 
         SetTransperancy(0.7f);
         TowerRange.SetActive(true);
 
-        SetStats(_towerScriptableObject.BaseStats);
-        SetProjectileStats(_towerScriptableObject.Projectile.BaseStats);
+        SetStats(TowerScriptableObject.BaseStats);
+        SetProjectileStats(TowerScriptableObject.Projectile.BaseStats);
         _animator = GetComponentInChildren<Animator>();
 
-        foreach(UpgradePaths path in _towerScriptableObject.UpgradePaths)
+        foreach(UpgradePaths path in TowerScriptableObject.UpgradePaths)
         {
-            _upgradeIndexes.Add(0);
+            UgradeIndexes.Add(0);
         }
     }
 
@@ -129,7 +175,7 @@ public class Tower : MonoBehaviour
             TowerRange.SetActive(false);
             SetTransperancy(1.7f);
 
-            _gameManagerScript.UpdateMoney(-_towerScriptableObject.Cost);
+            _gameManagerScript.UpdateMoney(-TowerScriptableObject.Cost);
 
             return true;
         }
@@ -147,9 +193,9 @@ public class Tower : MonoBehaviour
             }
             else
             {
-                _towerWindow.transform.GetChild(0).GetComponent<TowerStatsWindow>().SetStats(TowerStats);
-                _towerWindow.transform.Find("Upgrades").GetComponent<UpgradeManager>().SetUpgradePaths(_towerScriptableObject.UpgradePaths, _upgradeIndexes);
-                _towerWindow.transform.Find("Upgrades").GetComponent<UpgradeManager>().Set(this);
+                SetTowerWindowStats();
+                _towerWindow.GetComponent<TowerWindow>().SetupWindow(this);
+
                 TowerRange.SetActive(true);
                 _towerWindow.SetActive(true);
             }
@@ -160,6 +206,11 @@ public class Tower : MonoBehaviour
             if(PlaceTower())
                 GameObject.Find("Shop").GetComponent<ShopManager>().Tower = null;
         }
+    }
+
+    public void SetTowerWindowStats()
+    {
+        _towerWindow.transform.GetChild(0).GetComponent<TowerStatsWindow>().SetStats(TowerStats);
     }
 
     private void OnMouseEnter()
@@ -193,7 +244,7 @@ public class Tower : MonoBehaviour
 
     private void SortEnemiesByTargeting() 
     {
-        switch(_towerTargeting)
+        switch(TowerTargeting)
         {
             case TowerTargeting.First:
                 EnemiesInRange = EnemiesInRange.OrderByDescending(x => x.GetComponent<Enemy>().DistanceTravelled).ToList();
@@ -233,11 +284,11 @@ public class Tower : MonoBehaviour
 
                     _animator.SetFloat("SpeedMultiplier", TowerStats.AttackSpeed);
                     _animator.SetTrigger("Shoot");
-                    GameObject projectile = Instantiate(_towerScriptableObject.Projectile.Prefab, gameObject.transform.position, _towerScriptableObject.Projectile.Prefab.transform.rotation);
+                    GameObject projectile = Instantiate(TowerScriptableObject.Projectile.Prefab, gameObject.transform.position, TowerScriptableObject.Projectile.Prefab.transform.rotation);
                     Projectile projectileScript = projectile.GetComponent<Projectile>();
                     projectileScript.SetTarget(GetTargetedEnemy(i));
 
-                    projectileScript.SetCharacteristics(_projectileStats, _towerScriptableObject.Projectile.Type, damage, damageType);
+                    projectileScript.SetCharacteristics(_projectileStats, TowerScriptableObject.Projectile.Type, damage, damageType);
                 }
             }
             // Higher AttackSpeed means faster attacking
@@ -294,6 +345,12 @@ public class Tower : MonoBehaviour
     public void SetProjectileStats(ProjectileStats projectileStats)
     {
         _projectileStats = projectileStats;
+    }
+
+    public void ChangeTargeting(TowerTargeting targeting)
+    {
+        TowerTargeting = targeting;
+        _towerWindow.GetComponent<TowerWindow>().SetupWindow(this);
     }
 
     private void OnTriggerExit2D(Collider2D collision)

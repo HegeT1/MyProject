@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TowerScriptableObject", menuName = "ScriptableObjects/Tower")]
 public class TowerScriptableObject : ScriptableObject
 {
+    [field: SerializeField] public TowerBaseStats TowerBaseStats { get; private set; }
+
     [field: SerializeField] public string Name { get; private set; }
     [field: SerializeField] public TowerStats BaseStats { get; private set; }
     [field: Min(0)]
@@ -37,3 +40,13 @@ public class UpgradePaths
 {
     public List<UpgradeScriptableObject> Path;
 }
+
+//[Serializable]
+//public enum Stat {
+//    Damage,
+//    AttackSpeed,
+//    Range,
+//    CriticalChance,
+//    CriticalDamage,
+//    TargetableEnemies,
+//}

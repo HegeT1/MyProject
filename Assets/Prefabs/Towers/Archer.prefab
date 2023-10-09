@@ -153,27 +153,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f5229f1ee63f5946b2b13be741828e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <_test>k__BackingField: {fileID: 11400000, guid: 87501aa61fb35c14c9bbe4ba27ac129f, type: 2}
   TowerRange: {fileID: 3548865715654868889}
-  _towerScriptableObject: {fileID: 11400000, guid: c533f448ae171ba458b65032c441182a, type: 2}
-  _towerWindow: {fileID: 0}
-  _towerStats:
-    Range: 0
-    AttackSpeed: 0
+  <TowerScriptableObject>k__BackingField: {fileID: 11400000, guid: c533f448ae171ba458b65032c441182a, type: 2}
+  UgradeIndexes: 
+  TowerStats:
     Damage: 0
+    AttackSpeed: 0
+    Range: 0
     CriticalChance: 0
     CriticalDamage: 0
     TargetableEnemies: 0
-    Cost: 0
   _projectileStats:
     Speed: 0
     UpTime: 0
     Pierce: 0
-  _towerTargeting: 0
-  _towerState: 0
-  _towerPlacement: 0
+  <TowerTargeting>k__BackingField: 0
   <EnemiesInRange>k__BackingField: []
-  _isMouseOnObject: 0
-  _validPlacement: 0
 --- !u!1 &3548865715654868889 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8795512760161023830, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}

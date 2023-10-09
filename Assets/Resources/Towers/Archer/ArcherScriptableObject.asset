@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481e8408204e8c84daf296f4a76c33b2, type: 3}
   m_Name: ArcherScriptableObject
   m_EditorClassIdentifier: 
+  <TowerBaseStats>k__BackingField: {fileID: 11400000, guid: 87501aa61fb35c14c9bbe4ba27ac129f, type: 2}
   <Name>k__BackingField: Archer
   <BaseStats>k__BackingField:
     Damage: 2
