@@ -353,6 +353,13 @@ public class Tower : MonoBehaviour
         _towerWindow.GetComponent<TowerWindow>().SetupWindow(this);
     }
 
+    public void SellTower()
+    {
+        _gameManagerScript.UpdateMoney(TowerScriptableObject.Cost * _gameManagerScript.ReselValue);
+        _towerWindow.SetActive(false);
+        Destroy(gameObject);
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Road") || collision.gameObject.CompareTag("MainPanel") || collision.gameObject.CompareTag("Tower"))

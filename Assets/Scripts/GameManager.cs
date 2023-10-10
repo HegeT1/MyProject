@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public int PlayerHealth { get; private set; } = 100;
 
     public GameState GameState = GameState.None;
+    [field: SerializeField] public float ReselValue { get; private set; } = 0.3f;
 
     [field: SerializeField] public float Money { get; private set; } = 300;
 

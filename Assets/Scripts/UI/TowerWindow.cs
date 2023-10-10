@@ -12,6 +12,7 @@ public class TowerWindow : MonoBehaviour
 
         SetupTowerTargetingButtons();
         SetupUpgradePaths();
+        SetupSellButton();
     }
 
     private void SetupTowerTargetingButtons()
@@ -28,5 +29,10 @@ public class TowerWindow : MonoBehaviour
 
         upgradeManagerScript.SetUpgradePaths(_towerScript.TowerScriptableObject.UpgradePaths, _towerScript.UgradeIndexes);
         upgradeManagerScript.Set(_towerScript);
+    }
+
+    private void SetupSellButton()
+    {
+        transform.GetComponentInChildren<SellTower>().Set(_towerScript);
     }
 }
