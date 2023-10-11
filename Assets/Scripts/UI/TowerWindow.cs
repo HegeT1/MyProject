@@ -10,29 +10,30 @@ public class TowerWindow : MonoBehaviour
     {
         _towerScript = towerScript;
 
-        SetupTowerTargetingButtons();
-        SetupUpgradePaths();
-        SetupSellButton();
+        InitializeTowerTargetingButtons();
+        InitializeUpgradePaths();
+        InitializeSellButton();
     }
 
-    private void SetupTowerTargetingButtons()
+    private void InitializeTowerTargetingButtons()
     {
         foreach(ChangeTowerTargeting button in transform.GetChild(1).transform.GetComponentsInChildren<ChangeTowerTargeting>())
         {
-            button.SetButton(_towerScript.TowerTargeting, _towerScript);
+            button.InitializeButton(_towerScript.TowerTargeting, _towerScript);
         }
     }
 
-    private void SetupUpgradePaths()
+    private void InitializeUpgradePaths()
     {
         UpgradeManager upgradeManagerScript = transform.GetComponentInChildren<UpgradeManager>();
-
-        upgradeManagerScript.SetUpgradePaths(_towerScript.TowerScriptableObject.UpgradePaths, _towerScript.UgradeIndexes);
-        upgradeManagerScript.Set(_towerScript);
+        
+        //upgradeManagerScript.InitializeUpgradePaths(_towerScript.TowerScriptableObject.UpgradePaths, _towerScript.UpgradeIndexes);
+        upgradeManagerScript.Initialize(_towerScript);
+        upgradeManagerScript.InitializeUpgradePathsLayout();
     }
 
-    private void SetupSellButton()
+    private void InitializeSellButton()
     {
-        transform.GetComponentInChildren<SellTower>().Set(_towerScript);
+        transform.GetComponentInChildren<SellTower>().Initialize(_towerScript);
     }
 }

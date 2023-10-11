@@ -15,7 +15,7 @@ public class ChangeTowerTargeting : MonoBehaviour
         _towerScript.ChangeTargeting(_towerTargeting);
     }
 
-    public void SetButton(TowerTargeting targeting, Tower towerScript)
+    public void InitializeButton(TowerTargeting targeting, Tower towerScript)
     {
         _towerScript = towerScript;
         Image buttonImage = gameObject.GetComponent<Image>();

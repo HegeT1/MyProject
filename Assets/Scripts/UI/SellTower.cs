@@ -6,7 +6,7 @@ public class SellTower : MonoBehaviour
 {
     private Tower _towerScript;
 
-    public void Set(Tower towerScript) 
+    public void Initialize(Tower towerScript) 
     {
         _towerScript = towerScript;    
     }

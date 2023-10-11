@@ -2266,8 +2266,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7193067c462e2a640aa398acacc576bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _upgradePaths: []
-  _upgradeIndexes: 
   _pathPrefab: {fileID: 823062537299892152, guid: ba17e89e81a67294ab008848048752fb, type: 3}
   _pathMaxedPrefab: {fileID: 2796183186162683281, guid: 83fc3b5f02da22b438c5aaadbd2b2448, type: 3}
 --- !u!114 &556292344
@@ -5808,7 +5806,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1287177685
 RectTransform:
   m_ObjectHideFlags: 0

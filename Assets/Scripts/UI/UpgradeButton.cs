@@ -6,15 +6,15 @@ using UnityEngine.UI;
 
 public class UpgradeButton : MonoBehaviour
 {
-    private UpgradeManager _upgradeManagerScript;
-    [SerializeField] private UpgradeScriptableObject _upgradeScriptableObject;
+    //private UpgradeManager _upgradeManagerScript;
     [SerializeField] private TextMeshProUGUI _costText;
-    [SerializeField] private int _pathIndex;
+    //[SerializeField] private int _pathIndex;
+    //private Tower _towerScript;
 
     // Start is called before the first frame update
     void Start()
     {
-        _upgradeManagerScript = gameObject.transform.parent.transform.parent.GetComponent<UpgradeManager>();
+        //_upgradeManagerScript = gameObject.transform.parent.transform.parent.GetComponent<UpgradeManager>();
     }
 
     private void OnDisable()
@@ -22,11 +22,12 @@ public class UpgradeButton : MonoBehaviour
         GetComponent<Button>().onClick.RemoveAllListeners();
     }
 
-    public void SetListener(UpgradeScriptableObject upgrade, int pathIndex)
+    public void InitializeListener(Tower towerScript, int pathIndex)
     {
-        _upgradeScriptableObject = upgrade;
-        _pathIndex = pathIndex;
-        _costText.SetText("Upgrade for: " + _upgradeScriptableObject.Cost);
-        GetComponent<Button>().onClick.AddListener(() => _upgradeManagerScript.UpgradeTower(_upgradeScriptableObject.UpgradedStats, _pathIndex));
+        float upgradeCost = towerScript.TowerScriptableObject.UpgradePaths[pathIndex].Path[towerScript.GetUpgradePathPosition(pathIndex)].Cost;
+        //_towerScript = towerScript;
+        //_pathIndex = pathIndex;
+        _costText.SetText("Upgrade for: " + upgradeCost);
+        GetComponent<Button>().onClick.AddListener(() => towerScript.UpgradeTower(pathIndex));
     }
 }

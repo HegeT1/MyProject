@@ -23,14 +23,15 @@ public class Tower : MonoBehaviour
     [SerializeField] private GameObject TowerRange;
     [field: SerializeField] public TowerScriptableObject TowerScriptableObject { get; private set; }
     private GameObject _towerWindow;
-    public List<int> UgradeIndexes = new();
+    public List<int> UpgradeIndexes { get; private set; } = new();
 
-    [SerializeField] public TowerStats TowerStats;
+    [field: SerializeField] public TowerStats TowerStats { get; set; }
     [SerializeField] private ProjectileStats _projectileStats;
     [field: SerializeField] public TowerTargeting TowerTargeting { get; private set; } = TowerTargeting.First;
 
     private TowerState _towerState = TowerState.Idle;
     private TowerPlacement _towerPlacement = TowerPlacement.NotPlaced;
+    private float _towerValue;
 
     public List<GameObject> EnemiesInRange { get; set; }
     private bool _isMouseOnObject;
@@ -91,8 +92,10 @@ public class Tower : MonoBehaviour
 
         foreach(UpgradePaths path in TowerScriptableObject.UpgradePaths)
         {
-            UgradeIndexes.Add(0);
+            UpgradeIndexes.Add(0);
         }
+
+        _towerValue += TowerScriptableObject.Cost;
     }
 
     // Update is called once per frame
@@ -355,9 +358,36 @@ public class Tower : MonoBehaviour
 
     public void SellTower()
     {
-        _gameManagerScript.UpdateMoney(TowerScriptableObject.Cost * _gameManagerScript.ReselValue);
+        _gameManagerScript.UpdateMoney(_towerValue * _gameManagerScript.ReselValue);
         _towerWindow.SetActive(false);
         Destroy(gameObject);
+    }
+
+    public void UpgradeTower(int pathIndex)
+    {
+        if (pathIndex < TowerScriptableObject.UpgradePaths.Count && UpgradeIndexes[pathIndex] < TowerScriptableObject.UpgradePaths[pathIndex].Path.Count)
+        {
+            float upgradeCost = TowerScriptableObject.UpgradePaths[pathIndex].Path[UpgradeIndexes[pathIndex]].Cost;
+            if (upgradeCost <= _gameManagerScript.Money)
+            {
+                DoUpgrade();
+                _gameManagerScript.UpdateMoney(-upgradeCost);
+                UpgradeIndexes[pathIndex]++;
+                _towerWindow.GetComponent<TowerWindow>().SetupWindow(this);
+            }
+        }
+    }
+
+    private void DoUpgrade()
+    {
+
+    }
+
+    public int GetUpgradePathPosition(int upgradePathIndex)
+    {
+        if (upgradePathIndex < UpgradeIndexes.Count)
+            return UpgradeIndexes[upgradePathIndex];
+        return 0;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
