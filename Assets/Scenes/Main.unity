@@ -1799,7 +1799,7 @@ GameObject:
   - component: {fileID: 464282576}
   - component: {fileID: 464282575}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: Bottom Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5806,7 +5806,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1287177685
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7870,7 +7870,7 @@ MonoBehaviour:
   <PlayerHealth>k__BackingField: 100
   GameState: 0
   <ReselValue>k__BackingField: 0.3
-  <Money>k__BackingField: 500
+  <Money>k__BackingField: 5000
 --- !u!4 &1868909374
 Transform:
   m_ObjectHideFlags: 0

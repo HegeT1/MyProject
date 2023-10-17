@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -5,6 +6,17 @@ using System.Linq;
 using TMPro.EditorUtilities;
 using Unity.VisualScripting;
 using UnityEngine;
+
+
+public enum TowerStat
+{
+    Damage,
+    AttackSpeed,
+    Range,
+    CriticalChance,
+    CriticalDamage,
+    TargetableEnemies,
+}
 
 public enum TowerPlacement { NotPlaced, Placed };
 public enum TowerState { Idle, Fireing }
@@ -14,10 +26,10 @@ public class Tower : MonoBehaviour
 {
     private GameManager _gameManagerScript;
 
-    [field: SerializeField] public TowerBaseStats _test { get; private set; }
-    public List<Stat> Keys { get; private set; } = new();
-    public List<float> Values { get; private set; } = new();
-    private Dictionary<Stat, float> _towerStats = new();
+    [field: SerializeField] public TowerBaseStatsScriptableObject _test { get; private set; }
+    [field: SerializeField] public List<TowerStat> Keys { get; private set; } = new();
+    [field: SerializeField] public List<float> Values { get; private set; } = new();
+    private Dictionary<TowerStat, float> _towerStats = new();
 
 
     [SerializeField] private GameObject TowerRange;
@@ -38,50 +50,40 @@ public class Tower : MonoBehaviour
     private bool _validPlacement;
     private Animator _animator;
 
-    public void RefreshStats()
+    public void RefreshKeysValues()
     {
         _towerStats = new();
         for(int i = 0; i < Mathf.Min(Keys.Count, Values.Count); i++)
             _towerStats.Add(Keys[i], Values[i]);
     }
 
-    private void Test()
+    private void RefreshTowerStats()
     {
-        Debug.Log(Values[Keys.IndexOf(Stat.Damage)]);
-        //foreach (KeyValuePair<Stat, UpgradeStat> upgrade in _towerScriptableObject.UpgradePaths[0].Path[0].Upgrades)
-        //{
-        //    //Debug.Log("Before: " + _towerStats[upgrade.Key]);
-        //    _towerStats[upgrade.Key] += upgrade.Value.Value;
-            
-        //    Debug.Log(Values[Keys.IndexOf(upgrade.Key)]);
-        //    Keys.Clear();
-        //    Values.Clear();
-        //    foreach(KeyValuePair<Stat, float> kv in _towerStats)
-        //    {
-        //        Keys.Add(kv.Key);
-        //        Values.Add(kv.Value);
-        //    }
-        //    Debug.Log(Values[Keys.IndexOf(upgrade.Key)]);
-        //}
+        Keys.Clear();
+        Values.Clear();
+        foreach(KeyValuePair<TowerStat, float> keyValue in _towerStats)
+        {
+            Keys.Add(keyValue.Key);
+            Values.Add(keyValue.Value);
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //_test = TowerScriptableObject.TowerBaseStats;
-        //Keys.Clear();
-        //Values.Clear();
-        //for (int i = 0; i < Mathf.Min(_test.Keys.Count, _test.Values.Count); i++)
-        //{
-        //    Keys.Add(_test.Keys[i]);
-        //    Values.Add(_test.Values[i]);
-        //    _towerStats.Add(_test.Keys[i], _test.Values[i]);
-        //}
-        //InvokeRepeating(nameof(Test), 6, 10);
+        _test = TowerScriptableObject.TowerBaseStats;
+        Keys.Clear();
+        Values.Clear();
+        for (int i = 0; i < Mathf.Min(_test.Keys.Count, _test.Values.Count); i++)
+        {
+            Keys.Add(_test.Keys[i]);
+            Values.Add(_test.Values[i]);
+            _towerStats.Add(_test.Keys[i], _test.Values[i]);
+        }
 
 
         _gameManagerScript = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        _towerWindow = GameObject.Find("Canvas").transform.Find("Main UI").Find("Panel").Find("Selected Tower").gameObject;
+        _towerWindow = GameObject.Find("Canvas").transform.Find("Main UI").Find("Bottom Panel").Find("Selected Tower").gameObject;
 
         SetTransperancy(0.7f);
         TowerRange.SetActive(true);
@@ -367,20 +369,55 @@ public class Tower : MonoBehaviour
     {
         if (pathIndex < TowerScriptableObject.UpgradePaths.Count && UpgradeIndexes[pathIndex] < TowerScriptableObject.UpgradePaths[pathIndex].Path.Count)
         {
-            float upgradeCost = TowerScriptableObject.UpgradePaths[pathIndex].Path[UpgradeIndexes[pathIndex]].Cost;
-            if (upgradeCost <= _gameManagerScript.Money)
+            UpgradeScriptableObject upgrade = TowerScriptableObject.UpgradePaths[pathIndex].Path[UpgradeIndexes[pathIndex]];
+            if (upgrade.Cost <= _gameManagerScript.Money)
             {
-                DoUpgrade();
-                _gameManagerScript.UpdateMoney(-upgradeCost);
+                DoUpgrade(upgrade);
+                _gameManagerScript.UpdateMoney(-upgrade.Cost);
                 UpgradeIndexes[pathIndex]++;
                 _towerWindow.GetComponent<TowerWindow>().SetupWindow(this);
             }
         }
     }
 
-    private void DoUpgrade()
+    private void DoUpgrade(UpgradeScriptableObject upgrade)
     {
+        foreach (KeyValuePair<TowerStat, UpgradeStat> keyValue in upgrade.Upgrades)
+        {
+            if (TowerScriptableObject.TowerBaseStats.GetStatValue(keyValue.Key) == null) continue;
 
+            float? upgradeValue;
+            if(keyValue.Value.IsPercent)
+            {
+                if (keyValue.Value.BaseValue)
+                    upgradeValue = TowerScriptableObject.TowerBaseStats.GetStatValue(keyValue.Key);
+                else
+                    upgradeValue = _towerStats[keyValue.Key];
+                upgradeValue *= keyValue.Value.Value;
+            }
+            else
+                upgradeValue = keyValue.Value.Value;
+
+            switch(keyValue.Value.Arithemtic)
+            {
+                case Arithemtic.Add:
+                    _towerStats[keyValue.Key] += upgradeValue.Value;
+                    break;
+                case Arithemtic.Subtract:
+                    _towerStats[keyValue.Key] -= upgradeValue.Value;
+                    break;
+                case Arithemtic.Multiply:
+                    _towerStats[keyValue.Key] *= upgradeValue.Value;
+                    break;
+                case Arithemtic.Divide:
+                    _towerStats[keyValue.Key] /= upgradeValue.Value;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        RefreshTowerStats();
     }
 
     public int GetUpgradePathPosition(int upgradePathIndex)

@@ -12,11 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 354712c844981b042974399ba2eb5f3d, type: 3}
   m_Name: Upgrade 3
   m_EditorClassIdentifier: 
-  <UpgradedStats>k__BackingField:
-    Damage: 5
-    AttackSpeed: 1
-    Range: 3
-    CriticalChance: 0.1
-    CriticalDamage: 2
-    TargetableEnemies: 1
+  <TowerStats>k__BackingField: 
   <Cost>k__BackingField: 400
+  <Keys>k__BackingField: 020000000400000001000000
+  <Values>k__BackingField:
+  - Value: 0.5
+    IsPercent: 0
+    BaseValue: 0
+    Arithemtic: 1
+  - Value: 1
+    IsPercent: 0
+    BaseValue: 0
+    Arithemtic: 0
+  - Value: 1
+    IsPercent: 0
+    BaseValue: 0
+    Arithemtic: 0

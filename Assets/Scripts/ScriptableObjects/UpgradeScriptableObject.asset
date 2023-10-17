@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354712c844981b042974399ba2eb5f3d, type: 3}
+  m_Name: UpgradeScriptableObject
+  m_EditorClassIdentifier: 
+  <TowerStats>k__BackingField: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  <Cost>k__BackingField: 5
+  <Keys>k__BackingField: 0000000001000000
+  <Values>k__BackingField:
+  - Value: 0.1
+    IsPercent: 1
+    BaseValue: 1
+    Arithemtic: 0
+  - Value: 0.1
+    IsPercent: 0
+    BaseValue: 1
+    Arithemtic: 1
+  - Value: 0
+    IsPercent: 0
+    BaseValue: 1
+    Arithemtic: 0
+  - Value: 0
+    IsPercent: 0
+    BaseValue: 1
+    Arithemtic: 0
+  - Value: 0
+    IsPercent: 0
+    BaseValue: 1
+    Arithemtic: 0
+  - Value: 0
+    IsPercent: 0
+    BaseValue: 1
+    Arithemtic: 0
+  - Value: 0
+    IsPercent: 0
+    BaseValue: 1
+    Arithemtic: 0
+  - Value: 0
+    IsPercent: 0
+    BaseValue: 1
+    Arithemtic: 0

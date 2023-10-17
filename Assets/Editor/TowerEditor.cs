@@ -12,7 +12,7 @@ public class TowerEditor : Editor
     {
         base.OnInspectorGUI();
 
-        DrawDictionary();
+        //DrawDictionary();
     }
 
     private void DrawDictionary()
@@ -23,13 +23,13 @@ public class TowerEditor : Editor
         if (_showStats)
         {
             EditorGUI.indentLevel++;
-            if (tower.Keys.Count > -0 || tower.Values.Count > 0)
+            if (tower.Keys.Count > 0 || tower.Values.Count > 0)
             {
                 for (int i = 0; i < Mathf.Min(tower.Keys.Count, tower.Values.Count); i++)
                 {
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Key", GUILayout.MaxWidth(50));
-                    tower.Keys[i] = (Stat)EditorGUILayout.EnumPopup(tower.Keys[i]);
+                    tower.Keys[i] = (TowerStat)EditorGUILayout.EnumPopup(tower.Keys[i]);
                     EditorGUILayout.LabelField("Value", GUILayout.MaxWidth(50));
                     tower.Values[i] = EditorGUILayout.FloatField(tower.Values[i]);
                     EditorGUILayout.EndHorizontal();
@@ -42,6 +42,6 @@ public class TowerEditor : Editor
         }
 
         EditorGUILayout.Space();
-        tower.RefreshStats();
+        tower.RefreshKeysValues();
     }
 }
