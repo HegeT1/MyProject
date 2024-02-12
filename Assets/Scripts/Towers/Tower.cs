@@ -360,7 +360,7 @@ public class Tower : MonoBehaviour
 
     public void SellTower()
     {
-        _gameManagerScript.UpdateMoney(_towerValue * _gameManagerScript.ReselValue);
+        _gameManagerScript.UpdateMoney(_towerValue * _gameManagerScript.ReselPercent);
         _towerWindow.SetActive(false);
         Destroy(gameObject);
     }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -12,14 +11,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _waveText;
     [SerializeField] private TextMeshProUGUI _healthText;
     [SerializeField] private TextMeshProUGUI _moneyText;
+    [SerializeField] private GameObject _victoryPanel;
+    [SerializeField] private GameObject _defeatPanel;
 
     [field: SerializeField] public int WaveNumber { get; private set; }
     [field: SerializeField] public int PlayerHealth { get; private set; } = 100;
+    [field: SerializeField] public float Money { get; private set; } = 200;
+    [field: SerializeField] public float ReselPercent { get; private set; } = 0.7f;
 
     public GameState GameState = GameState.None;
-    [field: SerializeField] public float ReselValue { get; private set; } = 0.3f;
-
-    [field: SerializeField] public float Money { get; private set; } = 300;
 
     private void Start()
     {
@@ -54,6 +54,8 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        _victoryPanel.SetActive(false);
+        _defeatPanel.SetActive(false);
         GameState = GameState.Active;
     }
 
@@ -64,14 +66,49 @@ public class GameManager : MonoBehaviour
 
     public void Victory()
     {
+        Time.timeScale = 0;
         GameState = GameState.Victory;
-        Debug.Log("Victory!");
+        _victoryPanel.SetActive(true);
     }
 
     public void Defeat()
     {
         Time.timeScale = 0;
         GameState = GameState.Defeat;
-        Debug.Log("Defeat!");
+        _defeatPanel.SetActive(true);
+    }
+
+    public void RestartGame()
+    {
+        GameState = GameState.None;
+        WaveNumber = 0;
+        PlayerHealth  = 100;
+        Money = 200;
+
+        UpdateMoney(0);
+        UpdatePlayerHealth(0);
+        UpdateWave(0);
+
+        RemoveAllTowers();
+        RemoveAllEnemies();
+
+        _victoryPanel.SetActive(false);
+        _defeatPanel.SetActive(false);
+    }
+
+    private void RemoveAllTowers()
+    {
+        GameObject towers = GameObject.Find("Towers");
+        foreach (Transform child in towers.transform)
+            Destroy(child.gameObject);
+    }
+
+    private void RemoveAllEnemies()
+    {
+        GameObject enemies = GameObject.Find("Enemies");
+        foreach (Transform child in enemies.transform)
+            Destroy(child.gameObject);
+        SpawnManager spawnManagerScript = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
+        spawnManagerScript.Enemies.Clear();
     }
 }

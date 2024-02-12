@@ -15,4 +15,17 @@ public class UIGameHandler : MonoBehaviour
     {
         _gameManagerScript.StartGame();
     }
+
+    public void RestartGame()
+    {
+        _gameManagerScript.RestartGame();
+    }
+
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Application.Quit();
+    }
 }
