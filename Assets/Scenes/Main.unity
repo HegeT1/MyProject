@@ -1308,7 +1308,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 284529067}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 498.13495, y: 102.28471, z: -4.373377}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1357,8 +1357,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -50, y: -5}
-  m_SizeDelta: {x: 100, y: 60}
+  m_AnchoredPosition: {x: -50, y: -7}
+  m_SizeDelta: {x: 100, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &296967456
 MonoBehaviour:
@@ -4548,13 +4548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b8581e1f3c0d84ea5d15a5fe1a7c13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Waves>k__BackingField:
-  - {fileID: 11400000, guid: 820f1c15d11dbe74d8b8a3f4d27f576c, type: 2}
-  - {fileID: 11400000, guid: e44325167cc39b4469bffddef760d067, type: 2}
-  - {fileID: 11400000, guid: 64cdc58f56689b64e8261b677cd91b5a, type: 2}
-  - {fileID: 11400000, guid: 75fe2ffaa7cfc604482fdc8e8aecbcc6, type: 2}
-  - {fileID: 11400000, guid: f7936536b2430ad428126c3475a91e9c, type: 2}
-  - {fileID: 11400000, guid: c2bb9f26747202e4fac73667627e1b27, type: 2}
+  <Waves>k__BackingField: []
   _enemiesParentObject: {fileID: 978820970}
   <Enemies>k__BackingField: []
 --- !u!4 &850131954
@@ -5271,7 +5265,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 978820970}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 498.13495, y: 102.28471, z: -4.373377}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9444,7 +9438,7 @@ MonoBehaviour:
   _defeatPanel: {fileID: 130095450}
   <WaveNumber>k__BackingField: 0
   <PlayerHealth>k__BackingField: 100
-  <Money>k__BackingField: 200
+  <Money>k__BackingField: 2000
   <ReselPercent>k__BackingField: 0.7
   GameState: 0
 --- !u!4 &1868909374

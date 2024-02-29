@@ -549,13 +549,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e8449ead326088499f06e54e5188eff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stats:
+  <Stats>k__BackingField:
     MoveSpeed: 0
     MaxHealthPoints: 0
     DamageToPlayer: 0
-  <CurrentHealthPoints>k__BackingField: 0
+    MoneyWorth: 0
+    Strength: 0
+  _currentHealthPoints: 0
   _healthBarSlider: {fileID: 965667479218167659}
   _damageTakenText: {fileID: 6903250708693637455, guid: d36e70a3e9aedef4d9b69be1b23e12d3, type: 3}
+  <DistanceTravelled>k__BackingField: 0
 --- !u!61 &6824939509291397419
 BoxCollider2D:
   m_ObjectHideFlags: 0

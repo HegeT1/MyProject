@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameState { None, Active, Paused, Victory, Defeat }
 
@@ -34,6 +35,12 @@ public class GameManager : MonoBehaviour
         _waveText.SetText("Wave: " + WaveNumber);
     }
 
+    public void UpdateMoney(float moneyToAdd)
+    {
+        Money += moneyToAdd;
+        _moneyText.SetText(Money.ToString());
+    }
+
     public void UpdatePlayerHealth(int healthToAdd)
     {
         PlayerHealth += healthToAdd;
@@ -46,22 +53,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void UpdateMoney(float moneyToAdd)
-    {
-        Money += moneyToAdd;
-        _moneyText.SetText(Money.ToString());
-    }
-
     public void StartGame()
     {
-        _victoryPanel.SetActive(false);
-        _defeatPanel.SetActive(false);
         GameState = GameState.Active;
-    }
-
-    public void SetGameSpeed(float speed)
-    {
-        Time.timeScale = speed;
     }
 
     public void Victory()
@@ -78,37 +72,13 @@ public class GameManager : MonoBehaviour
         _defeatPanel.SetActive(true);
     }
 
+    public void SetGameSpeed(float speed)
+    {
+        Time.timeScale = speed;
+    }
+
     public void RestartGame()
     {
-        GameState = GameState.None;
-        WaveNumber = 0;
-        PlayerHealth  = 100;
-        Money = 200;
-
-        UpdateMoney(0);
-        UpdatePlayerHealth(0);
-        UpdateWave(0);
-
-        RemoveAllTowers();
-        RemoveAllEnemies();
-
-        _victoryPanel.SetActive(false);
-        _defeatPanel.SetActive(false);
-    }
-
-    private void RemoveAllTowers()
-    {
-        GameObject towers = GameObject.Find("Towers");
-        foreach (Transform child in towers.transform)
-            Destroy(child.gameObject);
-    }
-
-    private void RemoveAllEnemies()
-    {
-        GameObject enemies = GameObject.Find("Enemies");
-        foreach (Transform child in enemies.transform)
-            Destroy(child.gameObject);
-        SpawnManager spawnManagerScript = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
-        spawnManagerScript.Enemies.Clear();
+        SceneManager.LoadScene("Main");
     }
 }

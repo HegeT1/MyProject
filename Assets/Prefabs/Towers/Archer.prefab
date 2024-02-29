@@ -154,10 +154,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <_test>k__BackingField: {fileID: 11400000, guid: 87501aa61fb35c14c9bbe4ba27ac129f, type: 2}
-  TowerRange: {fileID: 3548865715654868889}
+  <Keys>k__BackingField: 
+  <Values>k__BackingField: []
+  <TowerRange>k__BackingField: {fileID: 3548865715654868889}
   <TowerScriptableObject>k__BackingField: {fileID: 11400000, guid: c533f448ae171ba458b65032c441182a, type: 2}
-  UgradeIndexes: 
-  TowerStats:
+  <TowerStats>k__BackingField:
     Damage: 0
     AttackSpeed: 0
     Range: 0
@@ -169,7 +170,6 @@ MonoBehaviour:
     UpTime: 0
     Pierce: 0
   <TowerTargeting>k__BackingField: 0
-  <EnemiesInRange>k__BackingField: []
 --- !u!1 &3548865715654868889 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8795512760161023830, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}

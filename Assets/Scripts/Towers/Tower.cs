@@ -1,25 +1,10 @@
-
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using TMPro.EditorUtilities;
-using Unity.VisualScripting;
 using UnityEngine;
 
-
-public enum TowerStat
-{
-    Damage,
-    AttackSpeed,
-    Range,
-    CriticalChance,
-    CriticalDamage,
-    TargetableEnemies,
-}
-
 public enum TowerPlacement { NotPlaced, Placed };
-public enum TowerState { Idle, Fireing }
+public enum TowerState { Idle, Attacking }
 public enum TowerTargeting { First, Last, Strong }
 
 public class Tower : MonoBehaviour
@@ -31,8 +16,7 @@ public class Tower : MonoBehaviour
     [field: SerializeField] public List<float> Values { get; private set; } = new();
     private Dictionary<TowerStat, float> _towerStats = new();
 
-
-    [SerializeField] private GameObject TowerRange;
+    [field: SerializeField] public GameObject TowerRange { get; private set; }
     [field: SerializeField] public TowerScriptableObject TowerScriptableObject { get; private set; }
     private GameObject _towerWindow;
     public List<int> UpgradeIndexes { get; private set; } = new();
@@ -46,7 +30,7 @@ public class Tower : MonoBehaviour
     private float _towerValue;
 
     public List<GameObject> EnemiesInRange { get; set; }
-    private bool _isMouseOnObject;
+    public bool _isMouseOnObject;
     private bool _validPlacement;
     private Animator _animator;
 
@@ -92,10 +76,7 @@ public class Tower : MonoBehaviour
         SetProjectileStats(TowerScriptableObject.Projectile.BaseStats);
         _animator = GetComponentInChildren<Animator>();
 
-        foreach(UpgradePaths path in TowerScriptableObject.UpgradePaths)
-        {
-            UpgradeIndexes.Add(0);
-        }
+        UpgradeIndexes.AddRange(TowerScriptableObject.UpgradePaths.Select(path => 0));
 
         _towerValue += TowerScriptableObject.Cost;
     }
@@ -109,13 +90,9 @@ public class Tower : MonoBehaviour
                 Destroy(gameObject);
 
             if (_validPlacement)
-            {
                 SetPlacementColor(Color.black);
-            }
             else
-            {
                 SetPlacementColor(Color.red);
-            }
 
             FollowMouse();
         }
@@ -124,33 +101,23 @@ public class Tower : MonoBehaviour
 
         if(_towerPlacement == TowerPlacement.Placed)
         {
-            if (Input.GetMouseButtonDown(0) && !_isMouseOnObject)
-            {
-                //TowerRange.SetActive(false);
-            }
-
-            _towerWindow.SetActive(AnySelectedTowers());
+            //if (Input.GetMouseButtonDown(0) && !_isMouseOnObject)
+            //{
+            //    TowerRange.SetActive(false);
+            //}
 
             EnemiesInRange = GetEnemiesInRange();
             SortEnemiesByTargeting();
             if (EnemiesInRange.Count > 0 && _towerState == TowerState.Idle)
             {
-                StartCoroutine(StartShootingProjectiles());
+                StartCoroutine(StartFireingProjectiles());
             }
         }
-    }
-
-    private bool AnySelectedTowers()
-    {
-        if (FindObjectsOfType<Tower>().Where(x => x._towerPlacement == TowerPlacement.Placed).Any(x => x.TowerRange.activeSelf))
-             return true;
-        return false;
     }
 
     private void FollowMouse()
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //mousePosition.z = Camera.main.transform.position.z + Camera.main.nearClipPlane;
         mousePosition.z = -9;
         transform.position = mousePosition;
     }
@@ -200,8 +167,6 @@ public class Tower : MonoBehaviour
             {
                 SetTowerWindowStats();
                 _towerWindow.GetComponent<TowerWindow>().SetupWindow(this);
-
-                TowerRange.SetActive(true);
                 _towerWindow.SetActive(true);
             }
         }
@@ -265,11 +230,11 @@ public class Tower : MonoBehaviour
         }
     }
 
-    IEnumerator StartShootingProjectiles()
+    IEnumerator StartFireingProjectiles()
     {
-        _towerState = TowerState.Fireing;
+        _towerState = TowerState.Attacking;
 
-        while(_towerState == TowerState.Fireing)
+        while(_towerState == TowerState.Attacking)
         {
             if (EnemiesInRange.Count <= 0)
             {
@@ -360,7 +325,7 @@ public class Tower : MonoBehaviour
 
     public void SellTower()
     {
-        _gameManagerScript.UpdateMoney(_towerValue * _gameManagerScript.ReselPercent);
+        _gameManagerScript.UpdateMoney((int)(_towerValue * _gameManagerScript.ReselPercent));
         _towerWindow.SetActive(false);
         Destroy(gameObject);
     }
@@ -374,6 +339,7 @@ public class Tower : MonoBehaviour
             {
                 DoUpgrade(upgrade);
                 _gameManagerScript.UpdateMoney(-upgrade.Cost);
+                _towerValue += upgrade.Cost;
                 UpgradeIndexes[pathIndex]++;
                 _towerWindow.GetComponent<TowerWindow>().SetupWindow(this);
             }
@@ -416,6 +382,18 @@ public class Tower : MonoBehaviour
                     break;
             }
         }
+
+        TowerStats newStats = new()
+        {
+            Damage = _towerStats[TowerStat.Damage],
+            AttackSpeed = _towerStats[TowerStat.AttackSpeed],
+            Range = _towerStats[TowerStat.Range],
+            CriticalChance = _towerStats[TowerStat.CriticalChance],
+            CriticalDamage = _towerStats[TowerStat.CriticalDamage],
+            TargetableEnemies = (int)_towerStats[TowerStat.TargetableEnemies]
+        };
+        TowerStats = newStats;
+        SetTowerWindowStats();
 
         RefreshTowerStats();
     }

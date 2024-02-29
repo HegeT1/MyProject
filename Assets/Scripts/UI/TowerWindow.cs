@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TowerWindow : MonoBehaviour
@@ -8,7 +6,11 @@ public class TowerWindow : MonoBehaviour
     
     public void SetupWindow(Tower towerScript)
     {
+        foreach(Transform tower in GameObject.Find("Towers").transform)
+            tower.GetComponent<Tower>().TowerRange.SetActive(false);
+
         _towerScript = towerScript;
+        _towerScript.TowerRange.SetActive(true);
 
         InitializeTowerTargetingButtons();
         InitializeUpgradePaths();

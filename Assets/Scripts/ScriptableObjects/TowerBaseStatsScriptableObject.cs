@@ -2,6 +2,16 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TowerStat
+{
+    Damage,
+    AttackSpeed,
+    Range,
+    CriticalChance,
+    CriticalDamage,
+    TargetableEnemies,
+}
+
 [CreateAssetMenu(fileName = "TowerBaseStatsScriptableObject", menuName = "ScriptableObjects/TowerBaseStats")]
 public class TowerBaseStatsScriptableObject : ScriptableObject, ISerializationCallbackReceiver
 {

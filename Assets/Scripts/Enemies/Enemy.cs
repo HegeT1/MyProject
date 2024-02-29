@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
     private GameManager _gameManagerScript;
-    private SpawnManager _spawnManagerScript;
+    protected SpawnManager _spawnManagerScript;
 
     private int _currentPointIndex = 0;
 
@@ -19,7 +15,7 @@ public class Enemy : MonoBehaviour
     private HealthBar _healthBarScritp;
     [SerializeField] private GameObject _damageTakenText;
     private Animator _animator;
-    private bool _canMove;
+    protected bool _canMove;
 
     private Vector2 _previousPosition;
     [field: SerializeField] public float DistanceTravelled { get; private set; }
@@ -49,14 +45,17 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void CalculateDistance()
+    void CalculateDistance()
     {
-        float distance = Vector2.Distance(transform.position, _previousPosition);
-        DistanceTravelled += distance;
+        if (_previousPosition != Vector2.zero)
+        {
+            float distance = Vector2.Distance(transform.position, _previousPosition);
+            DistanceTravelled += distance;
+        }
         _previousPosition = transform.position;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("End"))
         {
@@ -83,11 +82,10 @@ public class Enemy : MonoBehaviour
             _healthBarSlider.gameObject.SetActive(false);
             _canMove = false;
             _animator.SetTrigger("Dead");
-            _currentHealthPoints = 0;
-            GameObject.Find("Spawn Manager").GetComponent<SpawnManager>().RemoveEnemyFromList(gameObject);
-            GameObject.Find("Game Manager").GetComponent<GameManager>().UpdateMoney(Stats.MoneyWorth);
+            _spawnManagerScript.RemoveEnemyFromList(gameObject);
+            _gameManagerScript.UpdateMoney(Stats.MoneyWorth);
 
-            Destroy(gameObject, 0.5f);
+            DestroyEnemy();
         }
         else
         {
@@ -95,14 +93,19 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void ShowDamageTaken(float damage, DamageType damageType)
+    public virtual void DestroyEnemy()
+    {
+        Destroy(gameObject, 0.5f);
+    }
+
+    void ShowDamageTaken(float damage, DamageType damageType)
     {
         // Make the displayed damage a random position
         float xOffset = Random.Range(0.2f, 0.5f);
         float yOffset = Random.Range(0.2f, 0.5f);
-        Vector3 offset = new(xOffset, yOffset, 0);
+        Vector2 offset = new(xOffset, yOffset);
         
-        GameObject damageText = Instantiate(_damageTakenText, transform.position + offset, _damageTakenText.transform.rotation);
+        GameObject damageText = Instantiate(_damageTakenText, (Vector2)transform.position + offset, _damageTakenText.transform.rotation);
         damageText.GetComponent<DamageTaken>().SetText(damage, damageType, 0.4f);
     }
 }

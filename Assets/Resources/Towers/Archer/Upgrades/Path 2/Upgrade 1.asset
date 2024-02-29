@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 354712c844981b042974399ba2eb5f3d, type: 3}
   m_Name: Upgrade 1
   m_EditorClassIdentifier: 
+  <TowerStats>k__BackingField: 
   <Cost>k__BackingField: 155
   <Keys>k__BackingField: 05000000
   <Values>k__BackingField:
   - Value: 1
     IsPercent: 0
+    BaseValue: 0
     Arithemtic: 0

@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77ab4574b4acf0742bfba2d8b209bfba, type: 3}
-  m_Name: Wave5ScriptableObject
+  m_Name: Wave9ScriptableObject
   m_EditorClassIdentifier: 
-  <Number>k__BackingField: 5
-  <Type>k__BackingField: 1
+  <Number>k__BackingField: 9
+  <Type>k__BackingField: 0
   <Parts>k__BackingField:
-  - EnemyCount: 10
-    EnemySpacing: 0.5
+  - EnemyCount: 5
+    EnemySpacing: 2
     EnemyObject: {fileID: 11400000, guid: 43d4d7964675a7a40a132305ca61c6eb, type: 2}
     DelayForNextPart: 5
-  - EnemyCount: 2
+  - EnemyCount: 5
     EnemySpacing: 1
+    EnemyObject: {fileID: 11400000, guid: 71e18e4113c6b2249ae31835b25c1067, type: 2}
+    DelayForNextPart: 3
+  - EnemyCount: 5
+    EnemySpacing: 0.5
     EnemyObject: {fileID: 11400000, guid: 21be09152c2a6d64f99273470d140071, type: 2}
-    DelayForNextPart: 4
-  - EnemyCount: 1
-    EnemySpacing: 1
-    EnemyObject: {fileID: 11400000, guid: a7a6c051511e7da4790f2477792bbdfe, type: 2}
     DelayForNextPart: 0
-  <MoneyAwarded>k__BackingField: 100
+  <MoneyAwarded>k__BackingField: 0

@@ -17,6 +17,9 @@ public class ShopManager : MonoBehaviour
 
     public void InstantiateTower(TowerScriptableObject towerScriptableObject)
     {
+        foreach (Transform tower in GameObject.Find("Towers").transform)
+            tower.GetComponent<Tower>().TowerRange.SetActive(false);
+
         if (_gameManagerScript.Money >= towerScriptableObject.Cost && Tower == null)
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

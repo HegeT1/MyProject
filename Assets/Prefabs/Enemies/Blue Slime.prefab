@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 126415648880824980, guid: bfd69e439d938864eb7d7442b1a09135, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 684523447409534229, guid: bfd69e439d938864eb7d7442b1a09135, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 684523447409534229, guid: bfd69e439d938864eb7d7442b1a09135, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3016255338275276603, guid: bfd69e439d938864eb7d7442b1a09135, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -39,6 +51,10 @@ PrefabInstance:
     - target: {fileID: 5898575550245571312, guid: bfd69e439d938864eb7d7442b1a09135, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6203075964069291828, guid: bfd69e439d938864eb7d7442b1a09135, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6588390401506596702, guid: bfd69e439d938864eb7d7442b1a09135, type: 3}
       propertyPath: m_RootOrder
@@ -118,7 +134,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8810121295045255874, guid: bfd69e439d938864eb7d7442b1a09135, type: 3}
       propertyPath: m_Name
-      value: EasyEnemy
+      value: Blue Slime
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810121295045255874, guid: bfd69e439d938864eb7d7442b1a09135, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

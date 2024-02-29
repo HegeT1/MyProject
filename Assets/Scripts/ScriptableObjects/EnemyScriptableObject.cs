@@ -21,7 +21,8 @@ public struct EnemyStats
 [Serializable]
 public enum EnemyStrength
 {
-    Strength1,
-    Strength2,
-    Strength3,
+    Normal1,
+    Normal2,
+    Normal3,
+    Boss
 }

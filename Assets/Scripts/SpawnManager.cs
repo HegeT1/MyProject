@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -24,7 +23,7 @@ public class SpawnManager : MonoBehaviour
     {
         if (Enemies.Count == 0 && _gameManagerScript.GameState == GameState.Active && CheckCanSpawnNextWave())
         {
-            if(_gameManagerScript.WaveNumber == Waves.Count)
+            if (_gameManagerScript.WaveNumber == Waves.Count)
             {
                 _gameManagerScript.Victory();
             }
@@ -48,12 +47,11 @@ public class SpawnManager : MonoBehaviour
         {
             WaveScriptableObject wave = Waves.Find(x => x.Number == waveNumber);
 
-            for(int i = 0; i < wave.Parts.Count; i++) 
+            for (int i = 0; i < wave.Parts.Count; i++) 
                 _allPartsFinished.Add(false);
 
             for (int i = 0; i < wave.Parts.Count; i++)
             {
-                //if (!_gameManagerScript.IsGameActive)
                 if (_gameManagerScript.GameState == GameState.Defeat)
                     yield break;
                 StartCoroutine(SpawnEnemyWavePart(wave.Parts[i], i));
@@ -67,7 +65,6 @@ public class SpawnManager : MonoBehaviour
     {
         for (int i = 0; i < wavePart.EnemyCount; i++)
         {
-            //if (!_gameManagerScript.IsGameActive)
             if (_gameManagerScript.GameState == GameState.Defeat)
                 yield break;
             SpawnEnemy(wavePart.EnemyObject.Prefab, _gameManagerScript.Points[0].transform.position, wavePart.EnemyObject.Prefab.transform.rotation, wavePart.EnemyObject.BaseStats);
@@ -80,12 +77,12 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnEnemy(GameObject enemyPrefab, Vector2 position, Quaternion rotation, EnemyStats stats)
     {
-        GameObject enemy = Instantiate(enemyPrefab, position, rotation, _enemiesParentObject.transform);
+        GameObject enemy = Instantiate(enemyPrefab, position, rotation, _enemiesParentObject.transform);  
         enemy.GetComponent<Enemy>().SetStats(stats);
         Enemies.Add(enemy);
     }
 
-    private bool CheckCanSpawnNextWave()
+    bool CheckCanSpawnNextWave()
     {
         if (_allPartsFinished.Contains(false))
         {

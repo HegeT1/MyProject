@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 07cc161a7eb955d43a267bd7277a700d, type: 3}
-  m_Name: MediumEnemyScriptableObject
+  m_Name: GreenSlimeScriptableObject
   m_EditorClassIdentifier: 
   <BaseStats>k__BackingField:
     MoveSpeed: 3

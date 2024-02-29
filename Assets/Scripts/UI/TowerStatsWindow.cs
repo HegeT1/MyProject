@@ -10,7 +10,7 @@ public class TowerStatsWindow : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _criticalChanceDamage;
     [SerializeField] private TextMeshProUGUI _targetableEnemies;
 
-    private Vector2 _offset = new Vector2(0, 80);
+    private Vector2 _offset = new(0, 80);
 
     public void SetStats(TowerStats stats)
     {
@@ -18,7 +18,7 @@ public class TowerStatsWindow : MonoBehaviour
         _attackSpeed.SetText(stats.AttackSpeed.ToString());
         _range.SetText(stats.Range.ToString());
         _criticalChance.SetText((stats.CriticalChance * 100).ToString() + "%");
-        _criticalChanceDamage.SetText(stats.CriticalDamage.ToString());
+        _criticalChanceDamage.SetText(stats.CriticalDamage.ToString() + "x");
         _targetableEnemies.SetText(stats.TargetableEnemies.ToString());
     }
 

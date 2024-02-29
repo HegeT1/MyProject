@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -15,8 +13,6 @@ public class DamageTaken : MonoBehaviour
 
     public void SetText(float damage, DamageType damageType, float time)
     {
-        //StartCoroutine(DestroyText(time));
-
         _damageTakenText.SetText(damage.ToString());
         switch (damageType)
         {
@@ -32,11 +28,5 @@ public class DamageTaken : MonoBehaviour
         }
 
         Destroy(gameObject, time);
-    }
-
-    private IEnumerator DestroyText(float time)
-    {
-        yield return new WaitForSeconds(time);
-        Destroy(gameObject);
     }
 }
