@@ -1,26 +1,22 @@
 using System;
 using System.Collections.Generic;
-using System.Xml;
-using UnityEditor.Rendering;
 using UnityEngine;
+
+[Serializable]
+public enum Arithemtic { Add, Subtract, Multiply, Divide }
 
 [Serializable]
 public class UpgradeStat
 {
     public float Value;
     public bool IsPercent;
-    public bool BaseValue = true;
+    public bool IsBaseValue = true;
     public Arithemtic Arithemtic;
 }
-
-[Serializable]
-public enum Arithemtic { Add, Subtract, Multiply, Divide }
 
 [CreateAssetMenu(fileName = "UpgradeScriptableObject", menuName = "ScriptableObjects/Upgrade")]
 public class UpgradeScriptableObject : ScriptableObject, ISerializationCallbackReceiver
 {
-    [field: SerializeField] public List<TowerStat> TowerStats { get; private set; } = new();
-
     [field: SerializeField] public float Cost { get; private set; }
     [field: SerializeField] public List<TowerStat> Keys { get; private set; } = new();
     [field: SerializeField] public List<UpgradeStat> Values { get; private set; } = new();

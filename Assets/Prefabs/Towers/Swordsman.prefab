@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5426814263265822927
+--- !u!1001 &7208715958866617889
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -11,31 +11,7 @@ PrefabInstance:
     - target: {fileID: 4282979041313928307, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: cc6be34095896ef4d8a754735e6770f4, type: 2}
-    - target: {fileID: 4849538054919234356, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4849538054919234356, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
-      propertyPath: m_Color.b
-      value: 0.18609823
-      objectReference: {fileID: 0}
-    - target: {fileID: 4849538054919234356, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
-      propertyPath: m_Color.g
-      value: 0.18609823
-      objectReference: {fileID: 0}
-    - target: {fileID: 4849538054919234356, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
-      propertyPath: m_Color.r
-      value: 0.7735849
-      objectReference: {fileID: 0}
-    - target: {fileID: 5660897997069048882, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6558686775638217918, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
-      propertyPath: m_Color.a
-      value: 0.50980395
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 9100000, guid: 1e9df9bf943647d44abbacc6c439f1cd, type: 2}
     - target: {fileID: 7616697860113554893, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_Size.x
       value: 1.28
@@ -47,34 +23,30 @@ PrefabInstance:
     - target: {fileID: 7616697860113554893, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -1599151921, guid: 43ded50d6b2d34943bd96b2766a87f60, type: 3}
-    - target: {fileID: 7616697860113554893, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1703793499, guid: 792d10bb218cbf44dab1e07e1f0d806c, type: 3}
     - target: {fileID: 7616697860113554893, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7748845357025882165, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_Size.x
-      value: 0.65831846
+      value: 0.5194662
       objectReference: {fileID: 0}
     - target: {fileID: 7748845357025882165, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_Size.y
-      value: 0.74102706
+      value: 0.71538836
       objectReference: {fileID: 0}
     - target: {fileID: 7748845357025882165, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_Offset.x
-      value: -0.10968897
+      value: 0.006224543
       objectReference: {fileID: 0}
     - target: {fileID: 7748845357025882165, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_Offset.y
-      value: -0.005982429
+      value: -0.021985918
       objectReference: {fileID: 0}
     - target: {fileID: 7969806589635531309, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_Name
-      value: Archer
+      value: Swordsman
       objectReference: {fileID: 0}
     - target: {fileID: 7975912284720097613, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       propertyPath: m_RootOrder
@@ -120,48 +92,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8450798306900960091, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8795512760161023830, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7969806589635531309, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
       insertIndex: 1
-      addedObject: {fileID: 7355516530414735888}
+      addedObject: {fileID: 5158990636540556677}
   m_SourcePrefab: {fileID: 100100000, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
---- !u!1 &2726254542553389794 stripped
+--- !u!1 &761372385460106252 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7969806589635531309, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
-  m_PrefabInstance: {fileID: 5426814263265822927}
+  m_PrefabInstance: {fileID: 7208715958866617889}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7355516530414735888
+--- !u!114 &5158990636540556677
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2726254542553389794}
+  m_GameObject: {fileID: 761372385460106252}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd6e801a8ec654146aacbfa80049ba6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 31e28e4fa0aec2f459626cbbf632db2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <TowerScriptableObject>k__BackingField: {fileID: 11400000, guid: c533f448ae171ba458b65032c441182a, type: 2}
-  <TowerRange>k__BackingField: {fileID: 3548865715654868889}
-  <TowerTargeting>k__BackingField: 0
+  <TowerRange>k__BackingField: {fileID: 2163259138715357559}
+  <TowerScriptableObject>k__BackingField: {fileID: 11400000, guid: a5ea6c2193a26ab4cb405de6d22bd556, type: 2}
   _projectileStats:
     Speed: 0
     UpTime: 0
     Pierce: 0
---- !u!1 &3548865715654868889 stripped
+  <TowerTargeting>k__BackingField: 0
+--- !u!1 &2163259138715357559 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8795512760161023830, guid: e1b2234ba73a5d34b9ea85644770e582, type: 3}
-  m_PrefabInstance: {fileID: 5426814263265822927}
+  m_PrefabInstance: {fileID: 7208715958866617889}
   m_PrefabAsset: {fileID: 0}

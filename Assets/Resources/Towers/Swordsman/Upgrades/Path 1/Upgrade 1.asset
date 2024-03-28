@@ -13,13 +13,9 @@ MonoBehaviour:
   m_Name: Upgrade 1
   m_EditorClassIdentifier: 
   <Cost>k__BackingField: 200
-  <Keys>k__BackingField: 0000000001000000
+  <Keys>k__BackingField: 01000000
   <Values>k__BackingField:
-  - Value: 1
-    IsPercent: 0
-    BaseValue: 0
-    Arithemtic: 0
   - Value: 0.5
     IsPercent: 0
-    BaseValue: 0
+    BaseValue: 1
     Arithemtic: 0

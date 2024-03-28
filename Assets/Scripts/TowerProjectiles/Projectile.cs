@@ -1,8 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.Mathematics;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -18,14 +14,12 @@ public class Projectile : MonoBehaviour
     private bool _isAtMaxPierce; // To prevent the projectile hitting multiple targets if they are on top of eachother
     [SerializeField] private bool _targetHit;
 
-    // Start is called before the first frame update
     void Start()
     {
         _spawnManagerScript = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
         StartCoroutine(StartProjectileUpTimer());
     }
 
-    // Update is called once per frame
     void Update()
     {
         switch (_projectileType)
@@ -145,16 +139,16 @@ public class Projectile : MonoBehaviour
 
     private void GetNextTarget(GameObject currentTargetHit)
     {
-        int targetIndex = _spawnManagerScript.Enemies.IndexOf(currentTargetHit);
+        int currentTargetIndex = _spawnManagerScript.Enemies.IndexOf(currentTargetHit);
 
         // Set next target to behind the initial one
-        int nextTargetIndex = targetIndex + 1;
+        int nextTargetIndex = currentTargetIndex + 1;
 
-        // Sets next target to first if there are no targets behind the initial one
+        // Sets next target to in front of the initial one if there are no targets behind the initial one
         if (nextTargetIndex >= _spawnManagerScript.Enemies.Count)
-            nextTargetIndex = targetIndex - 1;
+            nextTargetIndex = currentTargetIndex - 1;
 
-        if(targetIndex == - 1 || nextTargetIndex >= _spawnManagerScript.Enemies.Count || nextTargetIndex == - 1)
+        if(currentTargetIndex == - 1 || nextTargetIndex >= _spawnManagerScript.Enemies.Count || nextTargetIndex == - 1)
         {
             _target = null;
             return;

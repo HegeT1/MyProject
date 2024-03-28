@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +15,7 @@ public class ChangeTowerTargeting : MonoBehaviour
     {
         _towerScript = towerScript;
         Image buttonImage = gameObject.GetComponent<Image>();
-        Color activeColor = new Color(0.5f, 1f, 1f);
+        Color activeColor = new(0.5f, 1f, 1f);
         if (targeting == _towerTargeting)
             buttonImage.color = activeColor;
         else

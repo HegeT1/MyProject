@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System;
 using UnityEngine;
 
@@ -23,6 +22,5 @@ public enum ProjectileType
 {
     Linear,
     Homing,
-    LinearBounce,
-    AOE
+    LinearBounce
 }

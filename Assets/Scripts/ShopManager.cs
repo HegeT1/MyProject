@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class ShopManager : MonoBehaviour
 {
@@ -9,7 +6,6 @@ public class ShopManager : MonoBehaviour
     public GameObject Tower;
     [SerializeField] private GameObject _towerParentObject;
 
-    // Start is called before the first frame update
     void Start()
     {
         _gameManagerScript = GameObject.Find("Game Manager").GetComponent<GameManager>();

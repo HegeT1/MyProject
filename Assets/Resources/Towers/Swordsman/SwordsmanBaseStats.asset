@@ -9,17 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 354712c844981b042974399ba2eb5f3d, type: 3}
-  m_Name: Upgrade 1
+  m_Script: {fileID: 11500000, guid: f6929ab2b08e81b498dd4a10ff4efff4, type: 3}
+  m_Name: SwordsmanBaseStats
   m_EditorClassIdentifier: 
-  <Cost>k__BackingField: 200
-  <Keys>k__BackingField: 0000000001000000
+  <Keys>k__BackingField: 0000000001000000020000000300000004000000
   <Values>k__BackingField:
-  - Value: 1
-    IsPercent: 0
-    BaseValue: 0
-    Arithemtic: 0
-  - Value: 0.5
-    IsPercent: 0
-    BaseValue: 0
-    Arithemtic: 0
+  - 4
+  - 1
+  - 1
+  - 0.1
+  - 2

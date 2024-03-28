@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -33,7 +32,7 @@ public class BuyTower : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
     {
         TowerStatsWindow towerStatsWindowScript = _statsWindow.GetComponent<TowerStatsWindow>();
 
-        towerStatsWindowScript.SetStats(_towerScriptableObject.BaseStats);
+        towerStatsWindowScript.SetStats(_towerScriptableObject.TowerBaseStats.BaseStats.ToDictionary(x => x.Key, x => x.Value));
         towerStatsWindowScript.SetPosition(gameObject.transform.localPosition);
         _statsWindow.SetActive(true);
     }

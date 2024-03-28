@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Tower))]
+[CustomEditor(typeof(Archer))]
 public class TowerEditor : Editor
 {
     private bool _showStats;

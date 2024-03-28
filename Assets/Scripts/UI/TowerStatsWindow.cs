@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -12,14 +13,14 @@ public class TowerStatsWindow : MonoBehaviour
 
     private Vector2 _offset = new(0, 80);
 
-    public void SetStats(TowerStats stats)
+    public void SetStats(Dictionary<TowerStat, float> stats)
     {
-        _damage.SetText(stats.Damage.ToString());
-        _attackSpeed.SetText(stats.AttackSpeed.ToString());
-        _range.SetText(stats.Range.ToString());
-        _criticalChance.SetText((stats.CriticalChance * 100).ToString() + "%");
-        _criticalChanceDamage.SetText(stats.CriticalDamage.ToString() + "x");
-        _targetableEnemies.SetText(stats.TargetableEnemies.ToString());
+        _damage.SetText(stats.GetValueOrDefault(TowerStat.Damage).ToString());
+        _attackSpeed.SetText(stats.GetValueOrDefault(TowerStat.AttackSpeed).ToString());
+        _range.SetText(stats.GetValueOrDefault(TowerStat.Range).ToString());
+        _criticalChance.SetText((stats.GetValueOrDefault(TowerStat.CriticalChance) * 100).ToString() + "%");
+        _criticalChanceDamage.SetText(stats.GetValueOrDefault(TowerStat.CriticalDamage).ToString() + "x");
+        _targetableEnemies.SetText(stats.GetValueOrDefault(TowerStat.TargetableEnemies).ToString());
     }
 
     public void SetPosition(Vector2 position)
