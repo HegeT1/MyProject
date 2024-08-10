@@ -6,6 +6,9 @@ public class TowerWindow : MonoBehaviour
     
     public void SetupWindow(Tower towerScript)
     {
+        if (towerScript != null)
+            towerScript.TowerRange.SetActive(false);
+
         foreach(Transform tower in GameObject.Find("Towers").transform)
             tower.GetComponent<Tower>().TowerRange.SetActive(false);
 

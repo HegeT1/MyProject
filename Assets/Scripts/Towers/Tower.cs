@@ -123,7 +123,7 @@ public class Tower : MonoBehaviour
     private void FollowMouse()
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = -9;
+        mousePosition.z = 0;
         transform.position = mousePosition;
     }
 
